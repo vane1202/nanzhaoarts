@@ -1,8 +1,8 @@
 # 南诏工匠官网
 
-当前部署：Cloudflare Pages 项目 nanzhaoarts，使用直接上传。
+当前 Cloudflare Pages 项目 nanzhaoarts 使用直接上传，尚未连接 Git 自动部署。
 
-2026-11-02 第一轮修复前生产版本：7f7c88e5-7049-45dc-ac72-f13df0b258da。
-归档部署：https://7f7c88e5.nanzhaoarts.pages.dev/
+修改前线上回滚版本：7f7c88e5-7049-45dc-ac72-f13df0b258da。
+https://7f7c88e5.nanzhaoarts.pages.dev/
 
-本仓库将先存入修改前公开静态版本，再保存与 Pages 上传包一致的修复版。现有项目尚无 Git 自动部署连接；Git 提交不代表已上线。
+本提交保存2026-11-02修改前公开静态版本。后续修复版生产文件存放于 main，before-round1-20261102 分支保留本基线。公开快照不包含后台部署配置及外部视频资源。
