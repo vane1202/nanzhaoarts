@@ -1,0 +1,42 @@
+/* Round 1: usability repairs only; production palette, content and section order retained. */
+[hidden]{display:none!important}
+.r1-preview{padding:3px 12px;background:#16201c;color:#c9c5b6;text-align:center;font-size:10px;letter-spacing:.04em}
+.r1-skip{position:fixed;left:16px;top:-100px;z-index:130;background:#f7f4ed;color:#16201c;padding:12px 18px}.r1-skip:focus{top:10px}
+:is(a,button,[tabindex]):focus-visible{outline:2px solid #b8955a;outline-offset:4px}
+.todo,.vid.ph,.btn.off{display:none!important}
+#cgrid>.cbox:only-child{grid-column:1/-1;max-width:560px;width:100%;justify-self:center}
+.r1-contact-fallback{font-size:.85rem}.fabw[data-r1-suppressed=true]{display:none!important}
+.r1-modal-open{overflow:hidden!important}
+.lb.r1-work{padding:24px;background:#08100de6;text-align:left;flex-direction:row;color:#26382b}
+.r1-work-panel{width:min(1120px,100%);max-height:calc(100dvh - 48px);overflow:auto;overscroll-behavior:contain;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);background:#f7f4ed;border:1px solid #8a8d7c;position:relative}
+.r1-work-toolbar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:2;padding:7px 12px 7px 22px;background:#f7f4ed;border-bottom:1px solid #d4cebd;font-size:12px;letter-spacing:.1em;color:#826b42}
+.lb.r1-work .r1-close{position:static;width:44px;height:44px;flex-shrink:0;border:1px solid #b8af94;color:#26382b;background:#eee8db;font-size:27px;cursor:pointer}
+.r1-work-image{min-height:340px;background:#0c130f;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.lb.r1-work .r1-work-image img{width:auto;max-width:100%;height:auto;max-height:65dvh;object-fit:contain;border-radius:0}
+.lb.r1-work .r1-work-image .r1-image-status{font-size:12px;color:#e0d9c8;margin:0;line-height:1.7}
+.lb.r1-work .r1-retry{position:static;font-size:14px;color:#ead9b6;border:1px solid #b8955a;padding:9px 15px;cursor:pointer}
+.r1-work-copy{min-width:0;padding:34px 30px}.r1-work-copy h2{font-size:30px;line-height:1.45;margin-bottom:12px}
+.lb.r1-work .r1-work-by{font-size:13px;color:#67715e;padding-bottom:18px;border-bottom:1px solid #d4cebd;margin:0}
+.lb.r1-work .r1-work-spec{font-size:13px;color:#67715e;line-height:1.8;margin-top:16px}
+.lb.r1-work .r1-work-description{font-size:15px;line-height:1.95;margin-top:22px;max-width:38ch;white-space:pre-line}
+.r1-work-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:28px}
+.lb.r1-work .r1-work-actions button{position:static;min-height:44px;padding:9px 12px;border:1px solid #aead97;color:#4e614e;font-size:13px;background:transparent;cursor:pointer}
+.lb.r1-work .r1-work-actions button:disabled{opacity:.4;cursor:default}.r1-work-actions a{font-size:13px;margin:0}
+.r1-profile-contact{display:inline-block;margin-top:14px;color:#607253;font-size:14px}
+@media(max-width:760px){
+ .r1-preview{font-size:9px;padding:2px 8px}
+ .hero .htxt{padding:20px 22px 28px;text-align:left}
+ .hero .hlogo-w picture img.hlogo{width:130px;max-height:70px;margin:0 0 14px}
+ .hero .eyebrow{font-size:10px;letter-spacing:.13em;margin-bottom:10px}
+ .hero .tag{font-size:23px;line-height:1.5}
+ .hero .intro{font-size:13px;line-height:1.8;margin-top:12px}
+ .hero .btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:20px}
+ .hero .btns .btn{margin:0;padding:11px 9px;min-height:46px;font-size:13px;text-align:center}
+ .hero .trustline{font-size:11px;line-height:1.8;letter-spacing:0;margin-top:14px}
+ .lb.r1-work{padding:10px}.r1-work-panel{grid-template-columns:1fr;max-height:calc(100dvh - 20px)}
+ .r1-work-toolbar{padding-left:18px}.r1-work-image{min-height:200px;padding:20px}
+ .lb.r1-work .r1-work-image img{max-height:42dvh}
+ .r1-work-copy{padding:25px 22px 30px}.r1-work-copy h2{font-size:27px}.lb.r1-work .r1-work-description{max-width:none}
+}
+@media(max-width:350px){.hero .btns .btn{font-size:12px;padding-inline:5px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation:none!important;transition:none!important}}
