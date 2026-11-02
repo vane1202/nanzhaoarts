@@ -1,0 +1,13 @@
+(()=>{'use strict';
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const text=(cn,en)=>L==='en'?en:L==='zh-TW'?twc(cn).replace(/阅/g,'閱').replace(/轮/g,'輪').replace(/层/g,'層').replace(/忆/g,'憶'):cn;
+ function selected(){
+  const root=document.getElementById('r2SelectedGrid');root.innerHTML=[0,2,5].filter(i=>WORKS[i]).map(i=>{const w=WORKS[i],x=L==='en'?w.en:w.zh;return `<figure tabindex="0" role="button" data-i="${i}" aria-label="${esc(text(x.t,x.t))}"><div class="r2-art"><img loading="lazy" src="${esc(w.src)}" alt="${esc(text(x.t,x.t))}"></div><figcaption><h3>${esc(text(x.t,x.t))}</h3><p>${esc(text('作者：'+w.artist.zh,'By '+w.artist.en))}</p><span class="r2-open">${text('阅读作品 ↗','View work ↗')}</span></figcaption></figure>`;}).join('');
+ }
+ const root=document.getElementById('r2SelectedGrid');root.addEventListener('click',e=>{const f=e.target.closest('figure');if(f)openWork(f);});root.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){const f=e.target.closest('figure');if(f){e.preventDefault();openWork(f);}}});
+ // Compact cultural guides retain the original paragraphs in keyboard-accessible disclosures.
+ const teasers=[['古国的名字，延续手艺的记忆。','A name that remembers a craft tradition.'],['从腾冲，认识翡翠与地方手艺。','Jadeite and the craft traditions of Tengchong.'],['循着商路，了解玉石的往来。','Follow the trading routes behind the stone.'],['在游记与地方记忆中，读懂腾越。','Tengyue in travel writing and local memory.']];
+ document.querySelectorAll('#culture .card').forEach((card,i)=>{const p=card.querySelector('p');const detail=document.createElement('details');detail.className='r2-culture-detail';const summary=document.createElement('summary');summary.dataset.en='Read the story';summary.dataset.zh='阅读文化故事';summary.textContent=text(summary.dataset.zh,summary.dataset.en);detail.append(summary);p.classList.add('r2-culture-copy');detail.append(p);card.append(detail);const lead=document.createElement('p');lead.className='r2-culture-teaser';lead.textContent=text(...teasers[i]);card.insertBefore(lead,detail);});
+ function refresh(){selected();document.querySelector('.r2-biography summary').textContent=text('阅读完整经历、荣誉与年表','Read the biography, honours and timeline');document.querySelectorAll('.r2-culture-teaser').forEach((n,i)=>n.textContent=text(...teasers[i]));document.querySelectorAll('.r2-culture-detail summary').forEach(n=>n.textContent=text(n.dataset.zh,n.dataset.en));const banner=document.querySelector('.r1-preview');if(banner)banner.textContent=text('第二轮优化预览 · 首屏、作品与阅读层级','Round 2 preview · Visual and reading improvements');}
+ const previous=setLang;setLang=function(...args){previous(...args);refresh();};refresh();
+})();
