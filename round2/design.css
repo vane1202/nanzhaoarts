@@ -53,3 +53,20 @@ p{text-wrap:pretty}.btn{border-radius:1px;min-height:46px;transition:background 
  #teamGrid{grid-template-columns:1fr;gap:36px}#teamGrid .card{grid-template-columns:34% minmax(0,1fr);gap:20px}#teamGrid h3{font-size:25px}#teamGrid .role{min-height:0}.qa .grid{grid-template-columns:1fr;gap:16px}.media a{font-size:14px}.r2-detail-body{max-width:100%}
 }
 @media(prefers-reduced-motion:reduce){.r2-selected-grid img{transition:none}.r2-selected-grid figure:hover img{transform:none}}
+
+/* Hero A · 2026-11-03: blend the original photograph into one shared ink backdrop. */
+.hero{position:relative;isolation:isolate;background:#030504;min-height:clamp(580px,43vw,760px)}
+.hero>picture{position:absolute;inset:0 auto 0 0;width:77%;height:100%;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to right,#000 0%,#000 60%,transparent 94%);mask-image:linear-gradient(to right,#000 0%,#000 60%,transparent 94%)}
+.hero>picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left center}
+.hero .htxt{grid-column:2;position:relative;z-index:1;background:transparent;padding:56px 42px 62px 36px}
+.hero .htxt>*{max-width:380px}.hero .hlogo-w picture img.hlogo{width:218px;max-height:106px;margin-bottom:24px}
+.hero .tag{font-size:clamp(21px,2vw,29px);line-height:1.6}.hero .intro{max-width:380px}
+@media(min-width:1001px) and (max-width:1200px){.hero{grid-template-columns:60% 40%}.hero .htxt{padding:40px 30px}.hero .hlogo-w picture img.hlogo{width:190px}.hero .btns .btn{padding-inline:13px}}
+@media(max-width:1000px){
+ .hero{display:block;min-height:0}.hero>picture{position:relative;inset:auto;display:block;width:100%;height:auto;-webkit-mask-image:none;mask-image:none}
+ .hero>picture img{position:static;display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain;object-position:center}
+ .hero>picture::after{content:"";position:absolute;inset:auto 0 0;height:15%;background:linear-gradient(to bottom,transparent,#030504);pointer-events:none}
+ .hero .htxt{width:100%;max-width:720px;margin:0 auto;padding:28px 32px 40px}.hero .htxt>*{max-width:540px}
+ .hero .hlogo-w picture img.hlogo{width:180px;max-height:88px;margin:0 0 18px}.hero .intro{max-width:48ch}.hero .tag{font-size:27px}
+}
+@media(max-width:760px){.hero .htxt{padding:24px 22px 34px}.hero .hlogo-w picture img.hlogo{width:130px;max-height:65px;margin:0 0 14px}.hero .tag{font-size:24px}.hero .intro{max-width:40ch}.hero .btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.hero .btns .btn{padding:11px 7px}}
