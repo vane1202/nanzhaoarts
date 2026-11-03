@@ -70,3 +70,10 @@ p{text-wrap:pretty}.btn{border-radius:1px;min-height:46px;transition:background 
  .hero .hlogo-w picture img.hlogo{width:180px;max-height:88px;margin:0 0 18px}.hero .intro{max-width:48ch}.hero .tag{font-size:27px}
 }
 @media(max-width:760px){.hero .htxt{padding:24px 22px 34px}.hero .hlogo-w picture img.hlogo{width:130px;max-height:65px;margin:0 0 14px}.hero .tag{font-size:24px}.hero .intro{max-width:40ch}.hero .btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.hero .btns .btn{padding:11px 7px}}
+
+/* Ultra-wide screens: keep the portrait and copy in one centered 1320px composition. */
+@media(min-width:1441px){
+ .hero{grid-template-columns:minmax(0,1fr) 800px 520px minmax(0,1fr);min-height:660px}
+ .hero>picture{left:calc(50% - 660px);width:1016px;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 60%,transparent 94%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 60%,transparent 94%)}
+ .hero .htxt{grid-column:3;padding:50px 34px 56px 36px}
+}
