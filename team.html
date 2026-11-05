@@ -310,7 +310,7 @@ function twApply(on){if(twObs)twObs.disconnect();
 const TWOPT={childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:TWA};
 const els=[...document.querySelectorAll('[data-en]')];els.forEach(e=>e.dataset.zh=e.innerHTML);
 function setLang(l,save){const prev=twOn;if(prev)twApply(false);L=l;document.documentElement.lang=l;const z=l!=='en';els.forEach(e=>e.innerHTML=z?e.dataset.zh:e.dataset.en);
- document.title=z?'南诏工匠 Nanzhao Arts | 腾冲翡翠 · 大师玉雕':'Nanzhao Arts 南诏工匠 | Master Jadeite Carving from Tengchong';
+ document.title=z?'南诏团队｜张伟、张圆、张清雪、文强 | 南诏工匠 Nanzhao Arts':'Our Team | Nanzhao Arts 南诏工匠';
  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===l));if(save){try{localStorage.setItem('lang2',l)}catch(e){}}render();
  document.querySelectorAll('.mapf iframe').forEach(f=>{const u=f.getAttribute('src').replace(/hl=[\w-]+/,'hl='+(l==='zh-TW'?'zh-TW':l==='en'?'en':'zh-CN'));if(u!==f.getAttribute('src'))f.setAttribute('src',u)});
  twApply(l==='zh-TW');document.documentElement.classList.remove('tw-pending');}

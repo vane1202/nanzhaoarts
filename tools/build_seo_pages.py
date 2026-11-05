@@ -160,6 +160,10 @@ def build_team_page():
     stubs = msheet + '<div hidden aria-hidden="true" style="display:none">' + "".join(f'<div id="{i}"></div>' for i in stub_ids) + '</div>'
     # clear top padding so the fixed nav does not cover the first heading
     t = t[:ms] + '<main id="main" class="seo-team">' + team + stubs + t[me:]
+    # the homepage script rewrites document.title on every render; keep the /team title instead
+    old_t = "document.title=z?'南诏工匠 Nanzhao Arts | 腾冲翡翠 · 大师玉雕':'Nanzhao Arts 南诏工匠 | Master Jadeite Carving from Tengchong';"
+    assert old_t in t
+    t = t.replace(old_t, "document.title=z?'南诏团队｜张伟、张圆、张清雪、文强 | 南诏工匠 Nanzhao Arts':'Our Team | Nanzhao Arts 南诏工匠';", 1)
     # round2/design.js only restyles sections that are not on this page (selected works, culture, biography)
     t = t.replace('<script src="/round2/design.js" defer></script>', '')
     return t
