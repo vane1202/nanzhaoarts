@@ -116,23 +116,55 @@ write("master.html",
       + nav("/master") + master_body + FOOT)
 
 # ---------- /team ----------
-def card(p):
-    return f"""<div class="card"><img loading="lazy" src="{p['img']}" alt="{p['n']}｜{p['r']}" width="600" height="600" style="aspect-ratio:1;object-fit:cover;width:100%"><div class="body"><h2 class="seo-h3">{p['n']}</h2><p class="role">{p['r']}</p>
-<div class="tbtns"><a class="btn fill" target="_blank" rel="noopener" href="{p['fb']}">在 Facebook 關注</a><a class="btn jade" target="_blank" rel="noopener" href="https://wa.me/{p['wa']}">WhatsApp 聯繫</a><a class="btn jade" target="_blank" rel="noopener" href="{p['reel']}">觀看精選影片</a></div></div></div>"""
+# /team reuses the homepage chrome (nav, #team section markup, footer, modal, scripts, CSS)
+# so it looks and behaves exactly like the homepage team section. Only the <head> SEO tags
+# differ, and the other homepage sections are dropped from <main>.
+def build_team_page():
+    t = idx
+    # head: title / canonical / robots / description / og
+    title = "南詔團隊｜張偉、張圓、張清雪、文強 | 南詔工匠 Nanzhao Arts"
+    desc = "認識南詔工匠團隊：創始人張偉、董事長張圓、品牌店店長張清雪、供應鏈負責人文強，陪您了解翡翠與玉雕，並一對一溝通定製需求。"
+    url = f"{BASE}/team"
+    t = re.sub(r"<title>.*?</title>", f"<title>{title}</title>", t, count=1, flags=re.S)
+    t = t.replace('<link rel="canonical" href="https://nanzhaoarts.com/">',
+                  f'<link rel="canonical" href="{url}"><meta name="robots" content="index,follow">', 1)
+    t = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{desc}">', t, count=1)
+    t = re.sub(r'<meta property="og:title" content="[^"]*">', f'<meta property="og:title" content="{title}">', t, count=1)
+    t = re.sub(r'<meta property="og:description" content="[^"]*">', f'<meta property="og:description" content="{desc}">', t, count=1)
+    t = t.replace('<meta property="og:url" content="https://nanzhaoarts.com/">', f'<meta property="og:url" content="{url}">', 1)
+    assert 'content="index,follow"' in t and url in t
+    # nav: anchors -> homepage anchors, brand -> /
+    t = t.replace('<a class="brand" href="#top"', '<a class="brand" href="/"', 1)
+    nav_s = t.index('<nav class="nav">'); nav_e = t.index('</nav>', nav_s)
+    nv = t[nav_s:nav_e]
+    nv = re.sub(r'href="#(story|culture|gallery)"', r'href="/#\1"', nv)
+    nv = nv.replace('<li><a href="/team"', '<li><a href="/team" aria-current="page"', 1)
+    t = t[:nav_s] + nv + t[nav_e:]
+    # main: keep only the #team section
+    ms = t.index('<main id="main">'); me = t.index('</main>')
+    main = t[ms:me]
+    ts = main.index('<section id="team" class="mint team">')
+    te = main.index('</section>', ts) + len('</section>')
+    team = main[ts:te]
+    team = team.replace('<p class="eyebrow"', '<h1 class="sr" data-en="Our Team · Zhang Wei, Zhang Yuan, Zhang Qingxue, Wen Qiang">南诏团队 · 张伟、张圆、张清雪、文强</h1><p class="eyebrow"', 1)
+    team = re.sub(r'<p class="seo-more-c">.*?</p>',
+                  '<div class="cta"><a class="btn" href="/contact" data-en="Contact us">联系我们</a> <a class="btn" href="/master" data-en="Meet Master Yang">认识杨树明老师</a> <a class="btn" href="/stores" data-en="Our stores">查看门店</a></div>',
+                  team, count=1, flags=re.S)
+    assert 'id="teamGrid"' in team and 'href="/contact"' in team
+    # the homepage script touches elements of sections we dropped: provide inert stubs
+    stub_ids = ["cgrid", "gal", "galTabs", "heroCta",
+                "contact", "mtoast", "pcard", "persona", "voiceGrid", "voices", "tvlb"]
+    # the map-picker sheet is wired by shared scripts at load time, so keep the real (hidden) markup
+    _i = idx.index('id="msheet"'); _i = idx.rfind('<div', 0, _i); _j = idx.index('<div class="mtoast"', _i)
+    msheet = idx[_i:_j]
+    stubs = msheet + '<div hidden aria-hidden="true" style="display:none">' + "".join(f'<div id="{i}"></div>' for i in stub_ids) + '</div>'
+    # clear top padding so the fixed nav does not cover the first heading
+    t = t[:ms] + '<main id="main" class="seo-team">' + team + stubs + t[me:]
+    # round2/design.js only restyles sections that are not on this page (selected works, culture, biography)
+    t = t.replace('<script src="/round2/design.js" defer></script>', '')
+    return t
 
-team_body = f"""<main id="main"><section class="mint team"><div class="wrap">
-<p class="eyebrow">南詔團隊</p><h1 class="seo-h1">南詔團隊｜陪您讀懂一塊玉</h1>
-<p class="lead culead" style="margin-bottom:26px">南詔團隊通過影片分享南詔工匠的品牌故事、玉雕文化與翡翠入門知識，並一對一陪您溝通定製需求。</p>
-<div class="grid">
-{''.join(card(p) for p in TEAM)}
-</div>
-<div class="cta"><a class="btn fill" href="/contact">聯繫我們</a><a class="btn" href="/master">認識楊樹明老師</a><a class="btn" href="/stores">查看門店</a></div>
-</div></section></main>
-"""
-write("team.html",
-      page_head("南詔團隊｜張偉、張圓、張清雪、文強 | 南詔工匠 Nanzhao Arts",
-                "認識南詔工匠團隊：創始人張偉、董事長張圓、品牌店店長張清雪、供應鏈負責人文強，陪您了解翡翠與玉雕，並一對一溝通定製需求。", "/team")
-      + nav("/team") + team_body + FOOT)
+write("team.html", build_team_page())
 
 # ---------- /stores ----------
 STORES = [
