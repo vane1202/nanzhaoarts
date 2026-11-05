@@ -4,13 +4,22 @@
 
 仓库已配置 `.github/workflows/deploy.yml`：推送或合并到 main 会通过 GitHub Actions 使用 Wrangler 发布到现有 Cloudflare Pages 项目 nanzhaoarts。项目仍使用直接上传 API，但不再需要手动上传。以下 2026-11-02 的手动上传说明仅作为历史记录。
 
-SEO 修复前源代码：69372682d682ae04d8bd38938c16110500e7d45f；修复前生产部署：f651353d-05b1-4c27-8a7d-f5691f46cec3。规范主域为 https://nanzhaoarts.com/ 。顾问路由 `/a/* /index.html 200` 保留。
+SEO 修复前源代码：69372682d682ae04d8bd38938c16110500e7d45f；修复前生产部署：f651353d-05b1-4c27-8a7d-f5691f46cec3。规范主域为 https://nanzhaoarts.com/ 。顾问路由 `/a/a1`–`/a/a4` 见下文「Phase-1 SEO 页面」。
 
 回滚时在 Pages 部署列表选择修复前生产部署；同时恢复 GitHub 对应源码，防止下一次 main 推送覆盖回滚结果。www 跳转规则需在 Cloudflare 域名规则中单独停用才能回滚。
 
 ## 2026-11-05 顾问入口修复
 
 加入 `404.html` 后 Cloudflare Pages 不再把未知路径回退到首页，原 `/a/* /index.html 200` 在线上表现为顾问链接 404。已改为 `/a/a1`–`/a/a4` 与 `/a/*` 代理到 `/`（200），真 404 仍返回 404 页；www→主域跳转保留路径与查询参数。
+
+## 2026-11-05 Phase-1 SEO 页面
+
+- 新增真实静态页（Cloudflare Pages 干净 URL，无尾斜杠）：`/master`、`/team`、`/stores`、`/contact`，对应 `master.html` 等；繁中静态页，暂无语言切换，不加载首页 JS。样式沿用首页并新增 `seo.css`。
+- 首页版式不变；导航「杨树明老师／南诏团队／联系我们」改指真实路径，新增「门店」入口，各区块末尾加「了解…」链接，页脚加站内链接。
+- `/a/a1`–`/a/a4` 不再用 `_redirects` 代理到 `/`（已删除 `_redirects`）；改为首页的真实副本 `a/a1.html`…`a/a4.html`，头部为 `noindex,follow` + canonical `https://nanzhaoarts.com/team`，并加 `X-Robots-Tag: noindex, follow`（`_headers`）。顾问体验不变，未知 `/a/xxx` 返回 404。
+- **维护**：`a/*.html` 与 `master/team/stores/contact.html` 由 `tools/build_seo_pages.py` 生成（需 `pip install opencc-python-reimplemented`）。**修改 `index.html` 后必须重新运行**，否则 `/a/*` 会与首页不一致。`tools/` 不会发布到线上。
+- `sitemap.xml` 含首页和上述 4 页；`/a/*` 永不进 sitemap，也不要在 robots.txt 里 Disallow（否则搜索引擎读不到 noindex）。
+- 回滚：Pages 部署列表回滚到上一部署，同时 `git revert` 本次提交。
 
 日期：2026-11-02。状态：第一轮修复版已发布到正式环境。
 

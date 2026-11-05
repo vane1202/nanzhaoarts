@@ -1,0 +1,18 @@
+/* Phase-1 SEO pages (/master /team /stores /contact) and homepage "learn more" links */
+.seo-h1{font-size:clamp(1.9rem,4.5vw,2.7rem);margin-bottom:22px}
+.seo-h3{font-size:1.3rem;margin-bottom:4px}
+.seo-sub{margin:38px 0 18px;text-align:center;color:var(--gold);font-size:1.15rem;letter-spacing:.08em}
+.seo-contact .cgrid{margin-top:8px}
+.seo-note{margin-top:34px;font-size:.92rem;opacity:.85}.seo-note a{text-decoration:underline;text-underline-offset:4px}
+.seo-store .mapbtns{margin-top:10px}
+.seo-store .mt{width:100%}
+.team .role{color:var(--gold);font-size:.9rem;margin-bottom:6px}
+.seo-more{display:inline-block;margin-top:18px;font-size:.95rem;letter-spacing:.04em;color:var(--jade);text-underline-offset:6px}
+.seo-more:hover{color:#8a6a35}
+.seo-more-c{text-align:center;margin-top:24px}
+.contact .seo-more{color:var(--paper)}
+.fnav{margin:8px 0}.fnav a{text-decoration:none}.fnav a:hover{color:var(--gold)}
+.nav .menu a[aria-current=page]{color:var(--gold)}
+.team .cta,.loc .cta{margin-top:34px}
+#founder-bio .stats span{color:#59684e}
+.seo-store{align-items:flex-start}

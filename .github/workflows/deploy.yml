@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Prepare site
-        run: mkdir -p _site && rsync -a --exclude .git --exclude .github --exclude _site ./ _site/
+        run: mkdir -p _site && rsync -a --exclude .git --exclude .github --exclude tools --exclude _site ./ _site/
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
