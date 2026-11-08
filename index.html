@@ -118,6 +118,7 @@ footer{background:var(--ink);color:#f6f3ec99;text-align:center;padding:28px 20px
 .tmx{position:absolute;top:10px;right:12px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;background:#fffd;font-size:24px;cursor:pointer}
 .tmnav{position:fixed;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1px solid #fff6;background:#0006;color:#fff;font-size:26px;cursor:pointer;z-index:91}
 .tmnav.p{left:16px}.tmnav.n{right:16px}
+.team .grid.team-promos{margin-top:30px;gap:30px;grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:760px){.team .grid.team-promos{grid-template-columns:1fr}}.promo-slot{aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px;text-align:center;border:1px solid #b9c8bd;border-radius:6px;background:linear-gradient(135deg,#f8faf7,#e8eee8);color:var(--ink)}.promo-slot h3{font-size:1.15rem}.promo-slot p{font-size:.9rem;color:#53665b}
 #teamGrid .card{cursor:pointer;transition:transform .25s,box-shadow .25s}#teamGrid .card:hover{transform:translateY(-6px);box-shadow:0 14px 36px #0002}
 @media(max-width:760px){.tm{padding:0}.tmbox{grid-template-columns:1fr;max-height:100vh;height:100%;border-radius:0}.tmbox{display:block}.tmimg{min-height:0;overflow:hidden}.tmimg img,.tmimg .ph{height:auto;aspect-ratio:4/5}.tmbody{padding:24px 20px 40px}.tmnav{top:auto;bottom:14px;transform:none}}
 .btn.off{opacity:.55;cursor:default}.btn.off small{font-size:.75em}.pids{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}.pid{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.85rem;color:#555}.pid img,.pid .qr{width:120px;height:120px;font-size:.7rem;display:flex;align-items:center;justify-content:center;text-align:center}.vid.reel{aspect-ratio:9/16;max-width:300px;margin:12px auto}.vid .vlab{position:absolute;left:0;right:0;bottom:14px;text-align:center;color:#fff;font-size:.85rem;opacity:.85}.vid iframe{width:100%;height:100%;border:0}.vid>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.vid .play,.vid .vlab{z-index:1}.vid .vlab{text-shadow:0 1px 4px #000}.mapbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.mapbtns .btn{padding:6px 14px;font-size:.85rem}.mapf{margin-top:14px;aspect-ratio:4/3;border-radius:8px;overflow:hidden;border:1px solid #0002;background:#e8eee9}.mapf iframe{width:100%;height:100%;border:0}@media(min-width:761px){.tmimg{min-height:0;overflow:visible;display:flex;align-items:center}.tmimg img,.tmimg .ph{height:auto;aspect-ratio:4/5;position:sticky;top:0}}
@@ -184,7 +185,11 @@ footer{background:var(--ink);color:#f6f3ec99;text-align:center;padding:28px 20px
 <div class="cta"><a class="btn" href="#contact" data-en="Talk to a consultant">联系顾问</a></div></div></section><section id="team" class="mint team"><div class="wrap">
 <p class="eyebrow" data-en="Our Team">南诏团队</p><h2 data-en="Our Team · Helping you understand jade">南诏团队 · 陪您读懂一块玉</h2>
 <p class="lead culead" style="margin-bottom:26px" data-en="Through their videos, our team shares the Nanzhao Arts story, jade carving culture and jadeite basics, and guides your custom inquiry one-on-one.">南诏团队通过视频分享南诏工匠的品牌故事、玉雕文化与翡翠入门知识，并一对一陪您沟通定制需求。</p>
-<div class="grid" id="teamGrid"></div><p class="seo-more-c"><a class="seo-more" href="/team" data-en="Learn more about our team ↗">了解南诏团队 ↗</a></p></div></section><section class="steps"><div class="wrap">
+<div class="grid" id="teamGrid"></div>
+<div class="grid team-promos">
+<div class="promo-slot"><h3 data-en="Company Film 01">公司宣传视频 01</h3><p data-en="Coming soon · Landscape video">敬请期待 · 横版视频</p></div>
+<div class="promo-slot"><h3 data-en="Company Film 02">公司宣传视频 02</h3><p data-en="Coming soon · Landscape video">敬请期待 · 横版视频</p></div>
+</div><p class="seo-more-c"><a class="seo-more" href="/team" data-en="Learn more about our team ↗">了解南诏团队 ↗</a></p></div></section><section class="steps"><div class="wrap">
 <p class="eyebrow" data-en="The Craft">工艺</p><h2 data-en="From rough stone to heirloom">从原石到传家宝</h2>
 <div class="grid">
 <div class="card"><img src="/img/craft-1.webp?v=2" alt="打灯甄选翡翠原石" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;display:block;margin-bottom:14px"><span>01</span><h3 data-en="Stone selection">原石甄选</h3><p data-en="Rough jadeite is chosen by hand for colour, texture and translucency.">依色泽、纹理与种水严格甄选原料。</p></div>
@@ -352,8 +357,10 @@ function renderPersona(z){const sec=document.getElementById('persona'),cg=docume
  ${P.wechatQR?`<img class="pqr" src="${P.wechatQR}" alt="WeChat QR">`:`<div class="pqr ph" style="background:#fff;color:#888;border-color:#bbb">${z?'【微信二维码】':'【WeChat QR】'}</div>`}</div></div>`;
  cg.innerHTML=chan(P,z)+emailBox(z,z?'公司邮箱':'Company email');
  route(P,'#team');document.getElementById('fab').textContent=z?'💬 联系我的顾问':'💬 My consultant';}
+// Public team profiles only; keep all TEAM advisor data for referral attribution.
+const DISPLAY_TEAM=TEAM.slice(0,2);
 function render(){const z=L!=='en';renderPersona(z);heroCta(z);
- document.getElementById('teamGrid').innerHTML=TEAM.map(p=>{const x=z?p.zh:p.en;return `<div class="card${p===P?' me':''}">${p.img?`<img loading="lazy" src="${p.img}" alt="${x.n}" style="aspect-ratio:1;object-fit:cover">`:`<div class="ph">${z?'【待补充：照片】':'【Photo to be supplied】'}</div>`}<div class="body"><h3>${x.n}${p===P?`<span class="badge">${z?'您的顾问':'Your consultant'}</span>`:''}</h3><p class="role">${x.r}</p>${extras(p,z,1)}
+ document.getElementById('teamGrid').innerHTML=DISPLAY_TEAM.map(p=>{const x=z?p.zh:p.en;return `<div class="card${p===P?' me':''}">${p.img?`<img loading="lazy" src="${p.img}" alt="${x.n}" style="aspect-ratio:1;object-fit:cover">`:`<div class="ph">${z?'【待补充：照片】':'【Photo to be supplied】'}</div>`}<div class="body"><h3>${x.n}${p===P?`<span class="badge">${z?'您的顾问':'Your consultant'}</span>`:''}</h3><p class="role">${x.r}</p>${extras(p,z,1)}
  <div class="tbtns"><a class="btn fill" target="_blank" rel="noopener" href="${p.facebook||'#'}">${z?'在 Facebook 关注':'Follow on Facebook'}</a><a class="btn jade" ${(()=>{const h=isWa(p.whatsapp)?wa(p.whatsapp):(isUrl(p.line)?p.line:'');return h?`target="_blank" rel="noopener" href="${h}"`:`href="javascript:void 0" data-open="1"`})()}>${z?'联系我的顾问':'Contact my advisor'}</a>${p.wechatId?`<a class="btn jade wxbtn" href="javascript:void 0" data-wx="${p.wechatId}">${z?'微信：':'WeChat: '}${p.wechatId}</a>`:''}</div></div></div>`}).join('');
  renderGal(z);}
 /* ---- works gallery ---- */
@@ -407,7 +414,7 @@ setLang(['zh-TW','zh-CN','en'].includes(s)?s:'zh-TW');
 function pbtn(h,t,z,f){return h?`<a class="btn ${f?'fill':'jade'}" target="_blank" rel="noopener" href="${h}">${t}</a>`:`<span class="btn ${f?'fill':'jade'} off" title="${z?'待补充':'Coming soon'}">${t}<small>${z?'（待补充）':' (soon)'}</small></span>`}
 function pid(t,id,qr,z){return `<div class="pid"><b>${t}</b>${qr?`<img src="${qr}" alt="${t} QR">`:`<div class="qr ph" style="color:#777;border-color:#bbb;background:#fff">${z?'【待补充：二维码】':'【QR to be supplied】'}</div>`}<span>${id?'ID：'+id:(z?'ID：【待补充】':'ID: 【to be supplied】')}</span></div>`}
 let TI=0;const tm=document.getElementById('tm');
-function tmShow(i){TI=(i+TEAM.length)%TEAM.length;const p=TEAM[TI],z=L!=='en',x=z?p.zh:p.en;
+function tmShow(i){TI=(i+DISPLAY_TEAM.length)%DISPLAY_TEAM.length;const p=DISPLAY_TEAM[TI],z=L!=='en',x=z?p.zh:p.en;
  document.getElementById('tmimg').innerHTML=p.img?`<img src="${p.img}" alt="${x.n}">`:`<div class="ph">${z?'【待补充：照片】':'【Photo to be supplied】'}</div>`;
  const h=isWa(p.whatsapp)?wa(p.whatsapp):'#contact';
  document.getElementById('tmbody').innerHTML=`<h3>${x.n}</h3><p class="role">${x.r}</p><p>${x.b}</p>${extras(p,z)}<p class="langs" style="margin-top:20px">${z?'个人联系方式':'Personal contact'}</p><div class="btns2" style="margin-top:8px">${pbtn(isWa(p.whatsapp)?wa(p.whatsapp):'','WhatsApp',z,1)}${pbtn(isUrl(p.facebook)?p.facebook:'','Facebook',z)}</div>`;

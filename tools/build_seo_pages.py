@@ -122,8 +122,8 @@ write("master.html",
 def build_team_page():
     t = idx
     # head: title / canonical / robots / description / og
-    title = "南詔團隊｜張偉、張圓、張清雪、文強 | 南詔工匠 Nanzhao Arts"
-    desc = "認識南詔工匠團隊：創始人張偉、董事長張圓、品牌店店長張清雪、供應鏈負責人文強，陪您了解翡翠與玉雕，並一對一溝通定製需求。"
+    title = "南詔團隊｜張偉、張圓與品牌影片 | 南詔工匠 Nanzhao Arts"
+    desc = "認識南詔工匠創始人張偉與董事長張圓，了解翡翠與玉雕，並一對一溝通定製需求；公司橫版宣傳影片專區預留中。"
     url = f"{BASE}/team"
     t = re.sub(r"<title>.*?</title>", f"<title>{title}</title>", t, count=1, flags=re.S)
     t = t.replace('<link rel="canonical" href="https://nanzhaoarts.com/">',
@@ -146,7 +146,7 @@ def build_team_page():
     ts = main.index('<section id="team" class="mint team">')
     te = main.index('</section>', ts) + len('</section>')
     team = main[ts:te]
-    team = team.replace('<p class="eyebrow"', '<h1 class="sr" data-en="Our Team · Zhang Wei, Zhang Yuan, Zhang Qingxue, Wen Qiang">南诏团队 · 张伟、张圆、张清雪、文强</h1><p class="eyebrow"', 1)
+    team = team.replace('<p class="eyebrow"', '<h1 class="sr" data-en="Our Team · Zhang Wei, Zhang Yuan & Company Films">南诏团队 · 张伟、张圆与品牌影片</h1><p class="eyebrow"', 1)
     team = re.sub(r'<p class="seo-more-c">.*?</p>',
                   '<div class="cta"><a class="btn" href="/contact" data-en="Contact us">联系我们</a> <a class="btn" href="/master" data-en="Meet Master Yang">认识杨树明老师</a> <a class="btn" href="/stores" data-en="Our stores">查看门店</a></div>',
                   team, count=1, flags=re.S)
@@ -163,7 +163,7 @@ def build_team_page():
     # the homepage script rewrites document.title on every render; keep the /team title instead
     old_t = "document.title=z?'南诏工匠 Nanzhao Arts | 腾冲翡翠 · 大师玉雕':'Nanzhao Arts 南诏工匠 | Master Jadeite Carving from Tengchong';"
     assert old_t in t
-    t = t.replace(old_t, "document.title=z?'南诏团队｜张伟、张圆、张清雪、文强 | 南诏工匠 Nanzhao Arts':'Our Team | Nanzhao Arts 南诏工匠';", 1)
+    t = t.replace(old_t, "document.title=z?'南诏团队｜张伟、张圆与品牌影片 | 南诏工匠 Nanzhao Arts':'Our Team | Nanzhao Arts 南诏工匠';", 1)
     # round2/design.js only restyles sections that are not on this page (selected works, culture, biography)
     t = t.replace('<script src="/round2/design.js" defer></script>', '')
     return t
