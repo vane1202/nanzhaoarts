@@ -78,7 +78,28 @@ p{text-wrap:pretty}.btn{border-radius:1px;min-height:46px;transition:background 
  .hero .htxt{grid-column:3;padding:50px 34px 56px 36px}
 }
 
-/* 张圆 9:16 portrait: match the user crop; 张伟 stays 3:4 */
+/* Team cards: magazine overlap. Portrait is the hero; featured video docks at the lower right. Both cards share this structure (张伟 3:4, 张圆 9:16 uncropped). */
+#teamGrid .card{overflow:visible}
+#teamGrid .team-media{display:flex;flex-direction:column;gap:16px;align-items:stretch}
+#teamGrid .team-stage{position:relative}
+#teamGrid .team-portrait,
+#teamGrid .team-stage>.ph{width:86%;max-width:none;display:block;position:relative;z-index:1;aspect-ratio:3/4;object-fit:cover;border-radius:0}
 #teamGrid .team-portrait.ratio-9x16{aspect-ratio:9/16;object-fit:cover}
-#teamGrid .team-media.media-9x16{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-#teamGrid .team-media.media-9x16 .team-video-column{width:100%}
+#teamGrid .team-video-column{position:absolute;right:0;bottom:0;width:36%;min-width:0;z-index:2}
+#teamGrid .team-media.media-9x16 .team-video-column{width:36%}
+#teamGrid .team-video-column .vid,
+#teamGrid .team-video-column .vid.reel{width:100%;max-width:none;aspect-ratio:9/16;margin:0;border-radius:0;box-shadow:0 0 0 3px #e6eee8,0 12px 28px rgba(22,32,28,.3)}
+#teamGrid .tbtns{margin-top:0;padding-top:2px;display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px 18px}
+#teamGrid .tbtns .btn{width:auto;max-width:100%}
+#teamGrid .tbtns .btn.jade{text-align:center;padding:8px 18px}
+@media(max-width:760px){
+  #teamGrid .team-portrait,
+  #teamGrid .team-stage>.ph{width:100%}
+  #teamGrid .team-stage{display:flex;flex-direction:column;align-items:flex-start}
+  #teamGrid .team-video-column,
+  #teamGrid .team-media.media-9x16 .team-video-column{position:static;width:min(58%,240px);margin-top:14px}
+  #teamGrid .team-video-column .vid,
+  #teamGrid .team-video-column .vid.reel{box-shadow:0 6px 18px rgba(22,32,28,.18)}
+  #teamGrid .tbtns{flex-direction:column;align-items:stretch;width:100%;max-width:320px;gap:8px}
+  #teamGrid .tbtns .btn{width:100%}
+}
