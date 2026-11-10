@@ -417,7 +417,7 @@ let TI=0;const tm=document.getElementById('tm');
 function tmShow(i){TI=(i+DISPLAY_TEAM.length)%DISPLAY_TEAM.length;const p=DISPLAY_TEAM[TI],z=L!=='en',x=z?p.zh:p.en;
  document.getElementById('tmimg').innerHTML=p.img?`<img src="${p.img}" alt="${x.n}">`:`<div class="ph">${z?'【待补充：照片】':'【Photo to be supplied】'}</div>`;
  const h=isWa(p.whatsapp)?wa(p.whatsapp):'#contact';
- document.getElementById('tmbody').innerHTML=`<h3>${x.n}</h3><p class="role">${x.r}</p><p>${x.b}</p>${extras(p,z)}<p class="langs" style="margin-top:20px">${z?'个人联系方式':'Personal contact'}</p><div class="btns2" style="margin-top:8px">${pbtn(isWa(p.whatsapp)?wa(p.whatsapp):'','WhatsApp',z,1)}${pbtn(isUrl(p.facebook)?p.facebook:'','Facebook',z)}</div>`;
+ document.getElementById('tmbody').innerHTML=`<h3>${x.n}</h3><p class="role">${x.r}</p><p>${x.b}</p>${extras(p,z)}<p class="langs" style="margin-top:20px">${z?'联系专属助理':'Contact via dedicated assistant'}</p><div class="btns2" style="margin-top:8px">${pbtn(isWa(p.whatsapp)?wa(p.whatsapp):'','WhatsApp',z,1)}${pbtn(isUrl(p.facebook)?p.facebook:'','Facebook',z)}</div>`;
  tm.querySelectorAll('.btns2 a[href^="#"]').forEach(a=>a.addEventListener('click',tmClose));}
 function tmOpen(i){tmShow(i);tm.classList.add('open');tm.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
 function tmClose(){tm.classList.remove('open');tm.setAttribute('aria-hidden','true');document.body.style.overflow=''}
