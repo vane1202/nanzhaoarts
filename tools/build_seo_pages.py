@@ -148,7 +148,7 @@ def build_team_page():
     team = main[ts:te]
     team = team.replace('<p class="eyebrow"', '<h1 class="sr" data-en="Our Team · Zhang Wei, Zhang Yuan & Company Films">南诏团队 · 张伟、张圆与品牌影片</h1><p class="eyebrow"', 1)
     team = re.sub(r'<p class="seo-more-c">.*?</p>',
-                  '<div class="cta"><a class="btn" href="/contact" data-en="Contact us">联系我们</a> <a class="btn" href="/master" data-en="Meet Master Yang">认识杨树明老师</a> <a class="btn" href="/stores" data-en="Our stores">查看门店</a></div>',
+                  '<div class="cta cta-trio"><a class="btn" href="/contact" data-en="Contact us">联系我们</a> <a class="btn" href="/master" data-en="Meet Master Yang">认识杨树明老师</a> <a class="btn" href="/stores" data-en="Our stores">查看门店</a></div>',
                   team, count=1, flags=re.S)
     assert 'id="teamGrid"' in team and 'href="/contact"' in team
     # the homepage script touches elements of sections we dropped: provide inert stubs
