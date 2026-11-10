@@ -77,3 +77,8 @@ p{text-wrap:pretty}.btn{border-radius:1px;min-height:46px;transition:background 
  .hero>picture{left:calc(50% - 660px);width:1016px;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 60%,transparent 94%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 60%,transparent 94%)}
  .hero .htxt{grid-column:3;padding:50px 34px 56px 36px}
 }
+
+/* 张圆 9:16 portrait: match the user crop; 张伟 stays 3:4 */
+#teamGrid .team-portrait.ratio-9x16{aspect-ratio:9/16;object-fit:cover}
+#teamGrid .team-media.media-9x16{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+#teamGrid .team-media.media-9x16 .team-video-column{width:100%}

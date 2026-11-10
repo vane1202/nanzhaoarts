@@ -80,7 +80,7 @@ def esc(s): return html.escape(s, quote=True)
 TEAM = [
     dict(n="張偉", r="「南詔工匠」珠寶品牌創始人", img="/img/team-a1.webp", wa="8617587115637",
          fb="https://www.facebook.com/profile.php?id=61552356396891", reel="https://www.facebook.com/reel/1633329301766649"),
-    dict(n="張圓", r="「南詔工匠」董事長", img="/img/team-a2-stairs.webp", wa="8615394805302",
+    dict(n="張圓", r="「南詔工匠」董事長", img="/img/team-a2-stairs-9x16.webp", wa="8615394805302",
          fb="https://www.facebook.com/profile.php?id=61550201366795", reel="https://www.facebook.com/reel/4002130003429958"),
     dict(n="張清雪", r="「南詔工匠」品牌店店長", img="/img/team-a3.webp", wa="8613238791871",
          fb="https://www.facebook.com/profile.php?id=100092552777975", reel="https://www.facebook.com/reel/1684487290062592"),
