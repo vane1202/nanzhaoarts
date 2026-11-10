@@ -229,3 +229,8 @@ for i in range(1, 5):
     t = t.replace('<meta property="og:url" content="https://nanzhaoarts.com/">', f'<meta property="og:url" content="{BASE}/team">', 1)
     assert 'noindex,follow' in t
     write(f"a/a{i}.html", t)
+
+# Shared languages, consultation routing and accessible video controls.
+# Keep this post-process last so regenerated SEO pages retain the common UI.
+import subprocess
+subprocess.run(["node", str(ROOT / "tools" / "build_site_ui.mjs")], cwd=ROOT, check=True)

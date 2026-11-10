@@ -1,0 +1,12 @@
+/* Shared language and consultation controls; preserve the existing art direction. */
+.nav .lang button{min-width:44px;min-height:44px}
+.nav .lang{margin-left:auto}
+.nav .burger{min-width:44px;min-height:44px}
+.ui-consult{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:28px 0 12px}
+.ui-profile{display:inline-flex;align-items:center;min-height:44px;padding:6px 0;background:none;border:0;border-bottom:1px solid currentColor;color:var(--jade);font:inherit;font-size:.9rem;cursor:pointer}
+.ui-source{display:inline-flex;align-items:center;min-height:44px;margin:4px 0 8px;color:inherit;font-size:.8rem;text-underline-offset:4px}
+.ui-referral{border:1px solid var(--gold)!important;box-shadow:inset 0 3px var(--gold)}
+.ui-badge{display:block;color:var(--gold);font-size:.85rem;margin-bottom:10px}
+.vid[role=button]{cursor:pointer}
+:is(.ui-profile,.ui-source,.vid[role=button],.lang button,.ui-consult a):focus-visible{outline:3px solid var(--gold);outline-offset:5px}
+@media(max-width:760px){.nav .wrap{justify-content:space-between}.nav .lang{margin-left:auto}.nav .brand{flex:0 1 auto}.nav .lang button{padding:4px 7px}.ui-consult .btn{max-width:100%;white-space:normal}.ui-source{line-height:1.5}}
