@@ -242,7 +242,7 @@ CATS = [
     ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】", "/img/custom-ring-v3.webp", "翡翠戒指 / Jadeite ring", 1600, 1200),
     ("雕件擺件", "【待補：雕件擺件的一句說明】", "/img/custom-carving.webp", "翡翠擺件 / Jadeite carving", 1600, 1200),
     ("對牌／禮贈", "【待補：對牌或禮贈的一句說明】", "/img/custom-pair.webp", "翡翠對牌 / Jadeite pair plaques", 1600, 1200),
-    ("自帶料加工", "【待補：是否接受自帶料，以及注意事項】", None, None, None, None),
+    ("翡翠收藏", "精選翡翠原石，開窗打燈可見種水與色根，配木雕底座陳列；可作收藏，亦可日後交由團隊訂製加工。", "/img/custom-rough.webp", "翡翠原石收藏 / Jadeite rough stone", 1080, 810),
 ]
 def cat_card(title, desc, img=None, alt=None, w=None, h=None):
     if img:
@@ -251,9 +251,10 @@ def cat_card(title, desc, img=None, alt=None, w=None, h=None):
         )
     else:
         media = '<div class="seo-ph"><span>待補實拍圖</span></div>'
+    desc_html = f'<span class="todo">{desc}</span>' if '【待補' in desc else desc
     return (
         f'<article class="card">{media}'
-        f'<div class="body"><h3>{title}</h3><p><span class="todo">{desc}</span></p></div></article>'
+        f'<div class="body"><h3>{title}</h3><p>{desc_html}</p></div></article>'
     )
 
 STEPS = [
