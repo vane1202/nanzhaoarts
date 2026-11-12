@@ -242,7 +242,7 @@ CATS = [
     ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】", "/img/custom-ring-v3.webp", "翡翠戒指 / Jadeite ring", 1600, 1200),
     ("雕件擺件", "【待補：雕件擺件的一句說明】", "/img/custom-carving.webp", "翡翠擺件 / Jadeite carving", 1600, 1200),
     ("對牌／禮贈", "【待補：對牌或禮贈的一句說明】", "/img/custom-pair.webp", "翡翠對牌 / Jadeite pair plaques", 1600, 1200),
-    ("翡翠收藏", "精選翡翠原石，開窗打燈可見種水與色根，配木雕底座陳列；可作收藏，亦可日後交由團隊訂製加工。", "/img/custom-rough.webp", "翡翠原石收藏 / Jadeite rough stone", 1080, 810),
+    ("翡翠收藏", "精選翡翠原石，開窗見種色，可藏可訂製", "/img/custom-rough.webp", "翡翠原石收藏 / Jadeite rough stone", 1080, 810),
 ]
 def cat_card(title, desc, img=None, alt=None, w=None, h=None):
     if img:

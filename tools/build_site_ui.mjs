@@ -35,7 +35,7 @@ for(const row of [
  ['<span class="todo">【待補：戒面與鑲嵌的一句說明】</span>','<span class="todo">【待补：戒面与镶嵌的一句说明】</span>','<span class="todo">[To be supplied: one-line description of cabochons and setting]</span>'],
  ['<span class="todo">【待補：雕件擺件的一句說明】</span>','<span class="todo">【待补：雕件摆件的一句说明】</span>','<span class="todo">[To be supplied: one-line description of carvings and ornaments]</span>'],
  ['<span class="todo">【待補：對牌或禮贈的一句說明】</span>','<span class="todo">【待补：对牌或礼赠的一句说明】</span>','<span class="todo">[To be supplied: one-line description of pair plaques or gifts]</span>'],
- ['精選翡翠原石，開窗打燈可見種水與色根，配木雕底座陳列；可作收藏，亦可日後交由團隊訂製加工。','精选翡翠原石，开窗打灯可见种水与色根，配木雕底座陈列；可作收藏，亦可日后交由团队订制加工。',"Selected jadeite rough with a polished window: light it to see the texture and color veins. Displayed on a carved wooden stand, kept as a collector's piece or later carved to order by our team."],
+ ['精選翡翠原石，開窗見種色，可藏可訂製','精选翡翠原石，开窗见种色，可藏可订制',"Selected jadeite rough, windowed to show color. Collect or carve to order."],
  ['從溝通到交付','从沟通到交付','From first conversation to delivery'],['訂製流程','订制流程','The commissioning process'],
  ['溝通需求','沟通需求','Share your needs'],['選料','选料','Choose the stone'],['確認設計','确认设计','Approve the design'],['報價與定金','报价与定金','Quotation and deposit'],['製作與交付','制作与交付','Making and delivery'],
  ['與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。預算起點：<span class="todo">【待補：起訂預算區間】</span>。','与专属顾问说明用途、预算区间，以及喜欢的种水与颜色。预算起点：<span class="todo">【待补：起订预算区间】</span>。','Tell your consultant the intended use, budget range, and the texture and colour you prefer. Starting budget: <span class="todo">[To be supplied: starting budget range]</span>.'],
