@@ -6,9 +6,17 @@ Needs: pip install opencc-python-reimplemented
 
 Outputs (all committed, served by Cloudflare Pages as clean URLs):
   master.html team.html stores.html contact.html   -> /master /team /stores /contact
+  custom.html                                      -> /custom (placeholder: noindex,follow)
   a/a1.html .. a/a4.html                           -> /a/a1 .. /a/a4 (copies of index.html,
                                                       noindex,follow + canonical /team)
 Re-run whenever index.html changes, otherwise /a/* will drift from the homepage.
+
+TODO when real /custom content arrives (do not do this while placeholders remain):
+  1. Flip /custom robots from noindex,follow to index,follow
+  2. Add https://nanzhaoarts.com/custom to sitemap.xml
+  3. Add internal links from the homepage, /master, /stores, /team (and nav/footer)
+  4. Add FAQPage JSON-LD only after placeholder answers are replaced
+Until then: do not add /custom to sitemap.xml, NAV_ITEMS, the footer, or the homepage.
 """
 import re, pathlib, html
 from opencc import OpenCC
@@ -30,19 +38,19 @@ HEAD = idx[:head_end]
 STYLES = "".join(re.findall(r"<style>.*?</style>", HEAD, re.S))
 ICONS = re.search(r'<meta name="theme-color".*?apple-touch-icon" href="[^"]+">', HEAD, re.S).group(0)
 
-def page_head(title, desc, path):
+def page_head(title, desc, path, robots="index,follow"):
     url = f"{BASE}{path}"
     return f"""<!doctype html>
 <html lang="zh-TW"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{title}</title>
 <link rel="canonical" href="{url}">
-<meta name="robots" content="index,follow">
+<meta name="robots" content="{robots}">
 <meta name="description" content="{desc}">
 <meta property="og:type" content="website"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:image" content="{BASE}/img/og-cover.jpg"><meta property="og:url" content="{url}">
 {ICONS}
 {STYLES}
-<link rel="stylesheet" href="/round1/fixes.css"><link rel="stylesheet" href="/round2/design.css?v=hero-a-wide-20261103"><link rel="stylesheet" href="/seo.css?v=1">
+<link rel="stylesheet" href="/round1/fixes.css"><link rel="stylesheet" href="/round2/design.css?v=hero-a-wide-20261103"><link rel="stylesheet" href="/seo.css?v=custom-20261112">
 </head>
 """
 
@@ -220,6 +228,120 @@ write("contact.html",
       page_head("聯繫南詔工匠｜定製雕刻、看料賞玉諮詢 | 南詔工匠 Nanzhao Arts",
                 "聯繫南詔工匠：品牌電子郵件，以及團隊成員張偉、張圓、張清雪、文強的 WhatsApp 與 Facebook，洽詢定製雕刻、看料賞玉與到店。", "/contact")
       + nav("/contact") + contact_body + FOOT)
+
+# ---------- /custom (placeholder; keep noindex until real content arrives) ----------
+# TODO when real content arrives:
+#   - page_head(..., robots="index,follow")
+#   - add /custom to sitemap.xml
+#   - add internal links from homepage, /master, /stores, /team (and nav/footer)
+#   - add FAQPage JSON-LD after placeholder answers are replaced
+# Do not invent prices, timelines, certificate labs, shipping countries, or policies.
+CATS = [
+    ("手鐲", "【待補：手鐲訂製的一句說明】"),
+    ("吊墜", "【待補：吊墜訂製的一句說明】"),
+    ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】"),
+    ("雕件擺件", "【待補：雕件擺件的一句說明】"),
+    ("對牌／禮贈", "【待補：對牌或禮贈的一句說明】"),
+    ("自帶料加工", "【待補：是否接受自帶料，以及注意事項】"),
+]
+def cat_card(title, desc):
+    return (
+        f'<article class="card"><div class="seo-ph"><span>待補實拍圖</span></div>'
+        f'<div class="body"><h3>{title}</h3><p><span class="todo">{desc}</span></p></div></article>'
+    )
+
+STEPS = [
+    ("01", "溝通需求",
+     '與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。預算起點：<span class="todo">【待補：起訂預算區間】</span>。'),
+    ("02", "選料",
+     "可透過影片或到店看料，確認原石或成品料。"),
+    ("03", "確認設計",
+     "由老師或團隊提供手稿或效果圖建議，確認後再進入製作。"),
+    ("04", "報價與定金",
+     '報價組成：<span class="todo">【待補：報價組成，例如料價、工費、鑲嵌】</span>。確認後支付定金再開始製作。'),
+    ("05", "製作與交付",
+     '製作期間會回報進度，完工後以影片確認，再寄出或到店取件。周期：<span class="todo">【待補：製作周期】</span>。'),
+]
+def step_item(num, title, desc):
+    return f'<li><span class="n" aria-hidden="true">{num}</span><h3>{title}</h3><p>{desc}</p></li>'
+
+TRUST = [
+    ("作者署名", "完成後會註明作者為楊樹明老師或團隊成員。"),
+    ("證書", '檢測機構：<span class="todo">【待補：檢測機構】</span>'),
+    ("交付", '<span class="todo">【待補：寄送地區與方式】</span>'),
+    ("售後", '<span class="todo">【待補：修改、保養、退換規則】</span>'),
+]
+def trust_card(title, desc):
+    return f'<article class="card"><h3>{title}</h3><p>{desc}</p></article>'
+
+FAQS = [
+    ("最低預算多少？", '起訂預算見<span class="todo">【待補：起訂預算區間】</span>。歡迎先告訴顧問用途與偏好，再一起看適配的料與方案。'),
+    ("多久完成？", '製作周期見<span class="todo">【待補：製作周期】</span>。確認設計與定金後開始計算，顧問會同步進度。'),
+    ("可以用自己的料嗎？", '<span class="todo">【待補：是否接受客戶自帶料，以及注意事項】</span>'),
+    ("海外怎麼收貨？", '<span class="todo">【待補：可寄送的國家或地區與方式】</span>'),
+    ("證書是哪家？", '<span class="todo">【待補：檢測機構】</span>'),
+    ("不滿意怎麼辦？", '<span class="todo">【待補：修改、保養、退換規則】</span>'),
+]
+def faq_item(q, a):
+    return f'<details><summary><span>{q}</span></summary><p>{a}</p></details>'
+
+custom_body = f"""<main id="main">
+<!-- TODO when real content arrives: flip robots to index,follow; add /custom to sitemap.xml; add internal links from homepage, /master, /stores, /team (and nav/footer). Do not add FAQPage JSON-LD until placeholder answers are replaced. -->
+<header class="hero seo-custom-hero">
+<picture><source srcset="/img/master-yang3.webp" type="image/webp"><img src="/img/master-yang3.jpg" width="1500" height="1000" fetchpriority="high" alt="玉雕大師楊樹明雕琢翡翠 / Master Yang Shuming carving jadeite"></picture>
+<div class="htxt">
+<h1>翡翠訂製</h1>
+<p class="sub">楊樹明老師團隊・一對一翡翠訂製</p>
+<div class="btns"><a class="btn fill" href="/contact">聯繫專屬顧問</a></div>
+</div></header>
+<section class="seo-custom-cats" id="categories">
+<div class="wrap">
+<p class="eyebrow">可訂製品類</p>
+<h2>可以訂製什麼</h2>
+<p class="lead">以下為規劃中的訂製品類；各品類說明與實拍圖將於資料齊備後更新。</p>
+<div class="grid">
+{''.join(cat_card(*c) for c in CATS)}
+</div>
+</div></section>
+<section class="mint seo-custom-flow" id="process">
+<div class="wrap">
+<p class="eyebrow">從溝通到交付</p>
+<h2>訂製流程</h2>
+<ol class="seo-steps">
+{''.join(step_item(*s) for s in STEPS)}
+</ol>
+</div></section>
+<section class="trust seo-custom-trust" id="assurance">
+<div class="wrap">
+<p class="eyebrow">交付與保障</p>
+<h2>品質保障</h2>
+<div class="grid">
+{''.join(trust_card(*t) for t in TRUST)}
+</div>
+</div></section>
+<section class="mint seo-custom-faq" id="faq">
+<div class="wrap">
+<p class="eyebrow">常見問題</p>
+<h2>常見問題</h2>
+<!-- TODO: add FAQPage JSON-LD after placeholder answers are replaced with real copy. -->
+<div class="seo-faq">
+{''.join(faq_item(*f) for f in FAQS)}
+</div>
+</div></section>
+<section class="contact seo-custom-cta" id="custom-cta">
+<div class="wrap">
+<p class="eyebrow">開始諮詢</p>
+<h2>與我們談談您的想法</h2>
+<div class="cta cta-trio"><a class="btn" href="/contact">聯繫我們</a> <a class="btn" href="/master">認識楊樹明老師</a> <a class="btn" href="/stores">查看門店</a></div>
+</div></section>
+</main>
+"""
+write("custom.html",
+      page_head("翡翠訂製｜南詔工匠 楊樹明老師團隊 | Nanzhao Arts",
+                "楊樹明老師團隊提供一對一翡翠訂製。了解可訂製品類、訂製流程與聯繫方式，由專屬顧問協助溝通需求。",
+                "/custom", robots="noindex,follow")
+      + nav(None) + custom_body + FOOT)
+
 
 # ---------- /a/a1..a4 : homepage experience, noindex + canonical /team ----------
 canon = '<link rel="canonical" href="https://nanzhaoarts.com/">'
