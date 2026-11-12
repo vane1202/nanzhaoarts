@@ -238,8 +238,8 @@ write("contact.html",
 # Do not invent prices, timelines, certificate labs, shipping countries, or policies.
 CATS = [
     ("手鐲", "【待補：手鐲訂製的一句說明】", "/img/custom-bangle.webp", "翡翠手鐲 / Jadeite bangles", 1600, 1200),
-    ("吊墜", "【待補：吊墜訂製的一句說明】", "/img/custom-pendant.webp", "翡翠吊墜 / Jadeite pendant", 1333, 1000),
-    ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】", "/img/custom-ring.webp", "翡翠戒指 / Jadeite ring", 1600, 1200),
+    ("吊墜", "【待補：吊墜訂製的一句說明】", "/img/custom-pendant-v2.webp", "翡翠吊墜 / Jadeite pendant", 1332, 999),
+    ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】", "/img/custom-ring-v2.webp", "翡翠戒指 / Jadeite ring", 3972, 2979),
     ("雕件擺件", "【待補：雕件擺件的一句說明】", None, None, None, None),
     ("對牌／禮贈", "【待補：對牌或禮贈的一句說明】", None, None, None, None),
     ("自帶料加工", "【待補：是否接受自帶料，以及注意事項】", None, None, None, None),
