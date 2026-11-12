@@ -237,11 +237,11 @@ write("contact.html",
 #   - add FAQPage JSON-LD after placeholder answers are replaced
 # Do not invent prices, timelines, certificate labs, shipping countries, or policies.
 CATS = [
-    ("手鐲", "【待補：手鐲訂製的一句說明】", "/img/custom-bangle.webp", "翡翠手鐲 / Jadeite bangles", 1600, 1200),
-    ("吊墜", "【待補：吊墜訂製的一句說明】", "/img/custom-pendant-v2.webp", "翡翠吊墜 / Jadeite pendant", 1332, 999),
-    ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】", "/img/custom-ring-v3.webp", "翡翠戒指 / Jadeite ring", 1600, 1200),
-    ("雕件擺件", "【待補：雕件擺件的一句說明】", "/img/custom-carving.webp", "翡翠擺件 / Jadeite carving", 1600, 1200),
-    ("對牌／禮贈", "【待補：對牌或禮贈的一句說明】", "/img/custom-pair.webp", "翡翠對牌 / Jadeite pair plaques", 1600, 1200),
+    ("手鐲", "按手圍選料，圈口與條型可訂製", "/img/custom-bangle.webp", "翡翠手鐲 / Jadeite bangles", 1600, 1200),
+    ("吊墜", "依寓意設計，楊老師團隊親手雕琢", "/img/custom-pendant-v2.webp", "翡翠吊墜 / Jadeite pendant", 1332, 999),
+    ("戒面鑲嵌", "精選戒面，按需設計鑲嵌款式", "/img/custom-ring-v3.webp", "翡翠戒指 / Jadeite ring", 1600, 1200),
+    ("雕件擺件", "因料施藝，雕琢獨一無二的擺件", "/img/custom-carving.webp", "翡翠擺件 / Jadeite carving", 1600, 1200),
+    ("對牌／禮贈", "成對雕刻，適合情侶與禮贈", "/img/custom-pair.webp", "翡翠對牌 / Jadeite pair plaques", 1600, 1200),
     ("翡翠收藏", "精選翡翠原石，開窗見種色，可藏可訂製", "/img/custom-rough.webp", "翡翠原石收藏 / Jadeite rough stone", 1080, 810),
 ]
 def cat_card(title, desc, img=None, alt=None, w=None, h=None):
