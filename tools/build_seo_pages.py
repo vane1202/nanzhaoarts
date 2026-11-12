@@ -50,7 +50,7 @@ def page_head(title, desc, path, robots="index,follow"):
 <meta property="og:type" content="website"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:image" content="{BASE}/img/og-cover.jpg"><meta property="og:url" content="{url}">
 {ICONS}
 {STYLES}
-<link rel="stylesheet" href="/round1/fixes.css"><link rel="stylesheet" href="/round2/design.css?v=hero-a-wide-20261103"><link rel="stylesheet" href="/seo.css?v=custom-20261112">
+<link rel="stylesheet" href="/round1/fixes.css"><link rel="stylesheet" href="/round2/design.css?v=hero-a-wide-20261103"><link rel="stylesheet" href="/seo.css?v=custom-20261112b">
 </head>
 """
 
@@ -237,16 +237,22 @@ write("contact.html",
 #   - add FAQPage JSON-LD after placeholder answers are replaced
 # Do not invent prices, timelines, certificate labs, shipping countries, or policies.
 CATS = [
-    ("手鐲", "【待補：手鐲訂製的一句說明】"),
-    ("吊墜", "【待補：吊墜訂製的一句說明】"),
-    ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】"),
-    ("雕件擺件", "【待補：雕件擺件的一句說明】"),
-    ("對牌／禮贈", "【待補：對牌或禮贈的一句說明】"),
-    ("自帶料加工", "【待補：是否接受自帶料，以及注意事項】"),
+    ("手鐲", "【待補：手鐲訂製的一句說明】", "/img/custom-bangle.webp", "翡翠手鐲 / Jadeite bangles", 1600, 1200),
+    ("吊墜", "【待補：吊墜訂製的一句說明】", "/img/custom-pendant.webp", "翡翠吊墜 / Jadeite pendant", 1333, 1000),
+    ("戒面鑲嵌", "【待補：戒面與鑲嵌的一句說明】", "/img/custom-ring.webp", "翡翠戒指 / Jadeite ring", 1600, 1200),
+    ("雕件擺件", "【待補：雕件擺件的一句說明】", None, None, None, None),
+    ("對牌／禮贈", "【待補：對牌或禮贈的一句說明】", None, None, None, None),
+    ("自帶料加工", "【待補：是否接受自帶料，以及注意事項】", None, None, None, None),
 ]
-def cat_card(title, desc):
+def cat_card(title, desc, img=None, alt=None, w=None, h=None):
+    if img:
+        media = (
+            f'<div class="seo-ph seo-ph-img"><img loading="lazy" src="{img}" width="{w}" height="{h}" alt="{esc(alt)}"></div>'
+        )
+    else:
+        media = '<div class="seo-ph"><span>待補實拍圖</span></div>'
     return (
-        f'<article class="card"><div class="seo-ph"><span>待補實拍圖</span></div>'
+        f'<article class="card">{media}'
         f'<div class="body"><h3>{title}</h3><p><span class="todo">{desc}</span></p></div></article>'
     )
 
