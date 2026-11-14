@@ -6,14 +6,13 @@ Needs: pip install opencc-python-reimplemented
 
 Outputs (all committed, served by Cloudflare Pages as clean URLs):
   master.html team.html stores.html contact.html   -> /master /team /stores /contact
-  custom.html                                      -> /custom (keep noindex,follow until told to index)
+  custom.html                                      -> /custom (index,follow)
   a/a1.html .. a/a4.html                           -> /a/a1 .. /a/a4 (copies of index.html,
                                                       noindex,follow + canonical /team)
 Re-run whenever index.html changes, otherwise /a/* will drift from the homepage.
 
-/custom now has the supplied process, quality and FAQ copy, plus FAQPage JSON-LD
-for the visible factual answers. Do not flip robots, and do not add /custom to
-sitemap.xml, NAV_ITEMS, the footer, or the homepage, until explicitly requested.
+/custom is a public page: index,follow, listed in sitemap.xml, the shared nav
+and footer, and linked from the homepage, /master, /team and /stores.
 Do not invent after-sales, returns, or own-material policies; omit those items.
 """
 import re, pathlib, html, json
@@ -53,7 +52,8 @@ def page_head(title, desc, path, robots="index,follow"):
 """
 
 NAV_ITEMS = [("/#story", "品牌緣起", None), ("/#culture", "玉雕文化", None), ("/master", "楊樹明老師", "/master"),
-             ("/team", "南詔團隊", "/team"), ("/#gallery", "作品展示", None), ("/stores", "門店", "/stores"), ("/contact", "聯繫我們", "/contact")]
+             ("/team", "南詔團隊", "/team"), ("/#gallery", "作品展示", None), ("/custom", "翡翠訂製", "/custom"),
+             ("/stores", "門店", "/stores"), ("/contact", "聯繫我們", "/contact")]
 
 def nav(current):
     li = "".join(
@@ -68,7 +68,7 @@ def nav(current):
 """
 
 FOOT = """<footer><picture><source srcset="/img/logo-white.webp" type="image/webp"><img class="flogo" loading="lazy" src="/img/logo-white.png" width="961" height="465" alt="南詔工匠 Nanzhao Arts"></picture>
-<p class="fnav"><a href="/">首頁</a> · <a href="/master">楊樹明老師</a> · <a href="/team">南詔團隊</a> · <a href="/stores">門店</a> · <a href="/contact">聯繫我們</a></p>
+<p class="fnav"><a href="/">首頁</a> · <a href="/master">楊樹明老師</a> · <a href="/team">南詔團隊</a> · <a href="/custom">翡翠訂製</a> · <a href="/stores">門店</a> · <a href="/contact">聯繫我們</a></p>
 <p>© 2026 南詔工匠 · 騰衝南詔珠寶有限公司 · nanzhaoarts.com · 品牌展示網站，不提供線上交易</p></footer>
 <script>(function(){var b=document.querySelector('.burger'),m=document.getElementById('menu');b.onclick=function(){b.setAttribute('aria-expanded',m.classList.toggle('open'))};m.onclick=function(e){if(e.target.tagName==='A')m.classList.remove('open')}})()</script>
 </body></html>
@@ -109,7 +109,7 @@ f = re.sub(r'<details class="r2-biography"><summary>.*?</summary>', '<div class=
 f = f.replace('</details>', '</div>')
 f = f.replace('<a class="r2-link" href="#gallery">欣赏老师的作品 ↗</a>', '<a class="r2-link" href="/#gallery">欣赏老师的作品 ↗</a>')
 f = re.sub(r'<div class="cta">.*?</div>',
-           '<div class="cta"><a class="btn fill" href="/contact">咨询大师定制</a><a class="btn" href="/team">认识南诏团队</a></div>', f, flags=re.S)
+           '<div class="cta"><a class="btn fill" href="/contact">咨询大师定制</a><a class="btn" href="/team">认识南诏团队</a><br><a class="seo-more" href="/custom">了解翡翠订制 ↗</a></div>', f, flags=re.S)
 assert 'href="/contact"' in f and "<details" not in f and "<h1" in f
 f = tw(f)
 master_body = f"""<main id="main">
@@ -154,7 +154,7 @@ def build_team_page():
     team = main[ts:te]
     team = team.replace('<p class="eyebrow"', '<h1 class="sr" data-en="Our Team · Zhang Wei, Zhang Yuan & Company Films">南诏团队 · 张伟、张圆与品牌影片</h1><p class="eyebrow"', 1)
     team = re.sub(r'<p class="seo-more-c">.*?</p>',
-                  '<div class="cta cta-trio"><a class="btn" href="/contact" data-en="Contact us">联系我们</a> <a class="btn" href="/master" data-en="Meet Master Yang">认识杨树明老师</a> <a class="btn" href="/stores" data-en="Our stores">查看门店</a></div>',
+                  '<div class="cta cta-trio"><a class="btn" href="/contact" data-en="Contact us">联系我们</a> <a class="btn" href="/master" data-en="Meet Master Yang">认识杨树明老师</a> <a class="btn" href="/stores" data-en="Our stores">查看门店</a></div><p class="seo-more-c"><a class="seo-more" href="/custom" data-en="Learn more about custom jadeite ↗">了解翡翠订制 ↗</a></p>',
                   team, count=1, flags=re.S)
     assert 'id="teamGrid"' in team and 'href="/contact"' in team
     # the homepage script touches elements of sections we dropped: provide inert stubs
@@ -199,7 +199,7 @@ stores_body = f"""<main id="main"><section class="loc"><div class="wrap">
 <div class="grid mgrid">
 {''.join(store_card(*s) for s in STORES)}
 </div>
-<div class="cta"><a class="btn fill" href="/contact">聯繫我們</a><a class="btn" href="/team">認識南詔團隊</a></div>
+<div class="cta"><a class="btn fill" href="/contact">聯繫我們</a><a class="btn" href="/team">認識南詔團隊</a><br><a class="seo-more" href="/custom">了解翡翠訂製 ↗</a></div>
 </div></section></main>
 """
 write("stores.html",
@@ -227,7 +227,7 @@ write("contact.html",
                 "聯繫南詔工匠：品牌電子郵件，以及團隊成員張偉、張圓、張清雪、文強的 WhatsApp 與 Facebook，洽詢定製雕刻、看料賞玉與到店。", "/contact")
       + nav("/contact") + contact_body + FOOT)
 
-# ---------- /custom (keep noindex; not in sitemap or nav until explicitly requested) ----------
+# ---------- /custom ----------
 # Remaining unpublished until supplied: after-sales / rework / returns, and own-material FAQ.
 # Do not invent prices, policies, revision counts, insurance coverage, or unstated guarantees.
 CATS = [
@@ -301,7 +301,7 @@ def faq_jsonld(faqs):
     return f'<script type="application/ld+json">{payload}</script>'
 
 custom_body = f"""<main id="main">
-<!-- Keep robots noindex,follow; do not add /custom to sitemap.xml or internal nav until explicitly requested. -->
+<!-- /custom is a public page (index,follow); keep unpublished after-sales and own-material items omitted. -->
 <header class="hero seo-custom-hero">
 <picture><source srcset="/img/master-yang3.webp" type="image/webp"><img src="/img/master-yang3.jpg" width="1500" height="1000" fetchpriority="high" alt="玉雕大師楊樹明雕琢翡翠 / Master Yang Shuming carving jadeite"></picture>
 <div class="htxt">
@@ -354,8 +354,8 @@ custom_body = f"""<main id="main">
 write("custom.html",
       page_head("翡翠訂製｜南詔工匠 楊樹明老師團隊 | Nanzhao Arts",
                 "楊樹明老師團隊提供一對一翡翠訂製。了解可訂製品類、訂製流程與聯繫方式，由專屬顧問協助溝通需求。",
-                "/custom", robots="noindex,follow")
-      + nav(None) + custom_body + FOOT)
+                "/custom")
+      + nav("/custom") + custom_body + FOOT)
 
 
 # ---------- /a/a1..a4 : homepage experience, noindex + canonical /team ----------

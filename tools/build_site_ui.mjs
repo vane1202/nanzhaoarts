@@ -56,16 +56,19 @@ for(const row of [
  ['最低100元即可體驗緬甸天然A貨翡翠。南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。各件訂製方案與預算請諮詢客服。','最低100元即可体验缅甸天然A货翡翠。南诏工匠位于缅甸翡翠源头市场，自有一定规模的原石、成品货盘优势。各件订制方案与预算请咨询客服。','From 100 yuan, you can experience natural Type A Burmese jadeite. Nanzhao Arts is based in the source market for Burmese jadeite and holds a sizeable selection of rough stones and finished pieces. For a specific commission and budget, please consult customer service.'],
  ['各品類製作周期大致為：手鐲 7–12 個工作日，吊墜 7–12 個工作日，戒面鑲嵌 7–10 個工作日，雕件擺件 15–30 個工作日，對牌 7–15 個工作日。','各品类制作周期大致为：手镯 7–12 个工作日，吊坠 7–12 个工作日，戒面镶嵌 7–10 个工作日，雕件摆件 15–30 个工作日，对牌 7–15 个工作日。','Typical production times are: bangles, 7–12 working days; pendants, 7–12 working days; cabochon setting, 7–10 working days; carvings, 15–30 working days; pair plaques, 7–15 working days.'],
  ['我們與順豐國際快遞合作，業務範圍覆蓋全球 200 多個國家及地區；實際可否寄達請諮詢客服。預設順豐國際快遞，保價服務可諮詢客服。定金比例與支付方式詳情請諮詢客服。','我们与顺丰国际快递合作，业务范围覆盖全球 200 多个国家及地区；实际可否寄达请咨询客服。默认顺丰国际快递，保价服务可咨询客服。定金比例与支付方式详情请咨询客服。','We work with SF International Express, whose service network covers more than 200 countries and regions worldwide. Please consult customer service for whether a given destination can be served. The default shipping method is SF International Express; insured shipping can be arranged through customer service. For the deposit ratio and payment methods, please consult customer service.'],
+ ['了解翡翠訂製 ↗','了解翡翠订制 ↗','Learn more about custom jadeite ↗'],
  ['開始諮詢','开始咨询','Start a conversation'],['與我們談談您的想法','与我们谈谈您的想法','Tell us about your piece'],
  ['認識楊樹明老師','认识杨树明老师','Meet Master Yang'],['查看門店','查看门店','Our stores']
 
 ]) add(...row);
 // Preserve the already published English biography and every existing fact verbatim.
-const source=[...idx.match(/<section id="founder"[\s\S]*?<\/section>/)[0].matchAll(re())];
+// CTA rows differ between the homepage founder block and /master; they are not biography copy.
+const stripCta=html=>html.replace(/<div class="cta">[\s\S]*?<\/div>/,'');
+const source=[...stripCta(idx.match(/<section id="founder"[\s\S]*?<\/section>/)[0]).matchAll(re())];
 const master=read('master.html');
-const target=[...master.match(/<section[^>]*id="founder-bio"[\s\S]*?<\/section>/)[0].matchAll(re())];
+const target=[...stripCta(master.match(/<section[^>]*id="founder-bio"[\s\S]*?<\/section>/)[0]).matchAll(re())];
 if(source.length!==target.length) throw Error('Biography structure changed; review translation alignment.');
-for(let i=0;i<source.length-2;i++){
+for(let i=0;i<source.length;i++){
  const s=source[i],t=target[i];
  if(s[1]!==t[1]&&!(s[1]==='h2'&&t[1]==='h1'))throw Error('Biography tag mismatch');
  const en=s[2].match(/data-en="([^"]*)"/)?.[1];
@@ -73,8 +76,10 @@ for(let i=0;i<source.length-2;i++){
 }
 const inject=s=>{
  s=s.replace('data-en="Worried " master="" work"="" is="" just="" a="" label?"=""','data-en="Worried &quot;master work&quot; is just a label?"');
- if(!s.includes('href="/site-ui.css'))s=s.replace('</head>','<link rel="stylesheet" href="/site-ui.css?v=20261110"></head>');
- if(!s.includes('src="/site-ui.js'))s=s.replace('</body>','<script src="/site-ui.js?v=20261110" defer></script></body>');
+ if(!s.includes('href="/site-ui.css'))s=s.replace('</head>','<link rel="stylesheet" href="/site-ui.css?v=20261114"></head>');
+ s=s.replace(/\/site-ui\.css\?v=[^" ]+/g,'/site-ui.css?v=20261114');
+ s=s.replace(/\/site-ui\.js\?v=[^" ]+/g,'/site-ui.js?v=20261114');
+ if(!s.includes('src="/site-ui.js'))s=s.replace('</body>','<script src="/site-ui.js?v=20261114" defer></script></body>');
  return s;
 };
 for(const p of ['master.html','stores.html','contact.html','custom.html']){

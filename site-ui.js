@@ -29,7 +29,7 @@
     a.removeAttribute('target');
    }
    // Only propagate context through real site pages, never media or email.
-   if(!/^\/(?:index\.html|team(?:\.html)?|master(?:\.html)?|stores(?:\.html)?|contact(?:\.html)?|a\/a[1-4](?:\.html)?)?\/?$/.test(u.pathname))continue;
+   if(!/^\/(?:index\.html|team(?:\.html)?|master(?:\.html)?|stores(?:\.html)?|contact(?:\.html)?|custom(?:\.html)?|a\/a[1-4](?:\.html)?)?\/?$/.test(u.pathname))continue;
    if(adviser)u.searchParams.set('ref',adviser[0]);
    a.setAttribute('href',u.pathname+u.search+u.hash);
   }
