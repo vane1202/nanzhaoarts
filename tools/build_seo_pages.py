@@ -6,19 +6,17 @@ Needs: pip install opencc-python-reimplemented
 
 Outputs (all committed, served by Cloudflare Pages as clean URLs):
   master.html team.html stores.html contact.html   -> /master /team /stores /contact
-  custom.html                                      -> /custom (placeholder: noindex,follow)
+  custom.html                                      -> /custom (keep noindex,follow until told to index)
   a/a1.html .. a/a4.html                           -> /a/a1 .. /a/a4 (copies of index.html,
                                                       noindex,follow + canonical /team)
 Re-run whenever index.html changes, otherwise /a/* will drift from the homepage.
 
-TODO when real /custom content arrives (do not do this while placeholders remain):
-  1. Flip /custom robots from noindex,follow to index,follow
-  2. Add https://nanzhaoarts.com/custom to sitemap.xml
-  3. Add internal links from the homepage, /master, /stores, /team (and nav/footer)
-  4. Add FAQPage JSON-LD only after placeholder answers are replaced
-Until then: do not add /custom to sitemap.xml, NAV_ITEMS, the footer, or the homepage.
+/custom now has the supplied process, quality and FAQ copy, plus FAQPage JSON-LD
+for the visible factual answers. Do not flip robots, and do not add /custom to
+sitemap.xml, NAV_ITEMS, the footer, or the homepage, until explicitly requested.
+Do not invent after-sales, returns, or own-material policies; omit those items.
 """
-import re, pathlib, html
+import re, pathlib, html, json
 from opencc import OpenCC
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -229,13 +227,9 @@ write("contact.html",
                 "聯繫南詔工匠：品牌電子郵件，以及團隊成員張偉、張圓、張清雪、文強的 WhatsApp 與 Facebook，洽詢定製雕刻、看料賞玉與到店。", "/contact")
       + nav("/contact") + contact_body + FOOT)
 
-# ---------- /custom (placeholder; keep noindex until real content arrives) ----------
-# TODO when real content arrives:
-#   - page_head(..., robots="index,follow")
-#   - add /custom to sitemap.xml
-#   - add internal links from homepage, /master, /stores, /team (and nav/footer)
-#   - add FAQPage JSON-LD after placeholder answers are replaced
-# Do not invent prices, timelines, certificate labs, shipping countries, or policies.
+# ---------- /custom (keep noindex; not in sitemap or nav until explicitly requested) ----------
+# Remaining unpublished until supplied: after-sales / rework / returns, and own-material FAQ.
+# Do not invent prices, policies, revision counts, insurance coverage, or unstated guarantees.
 CATS = [
     ("手鐲", "按手圍選料，圈口與條型可訂製", "/img/custom-bangle.webp", "翡翠手鐲 / Jadeite bangles", 1600, 1200),
     ("吊墜", "依寓意設計，楊老師團隊親手雕琢", "/img/custom-pendant-v2.webp", "翡翠吊墜 / Jadeite pendant", 1332, 999),
@@ -259,41 +253,55 @@ def cat_card(title, desc, img=None, alt=None, w=None, h=None):
 
 STEPS = [
     ("01", "溝通需求",
-     '與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。預算起點：<span class="todo">【待補：起訂預算區間】</span>。'),
+     "南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。最低100元即可體驗緬甸天然A貨翡翠。"),
     ("02", "選料",
      "可透過影片或到店看料，確認原石或成品料。"),
     ("03", "確認設計",
-     "由老師或團隊提供手稿或效果圖建議，確認後再進入製作。"),
+     "初稿和定稿一般以手稿或電子稿形式呈現；在材料特性的基礎上，盡量滿足客戶的需求。"),
     ("04", "報價與定金",
-     '報價組成：<span class="todo">【待補：報價組成，例如料價、工費、鑲嵌】</span>。確認後支付定金再開始製作。'),
+     "報價透明，訂製過程中的每一項環節都單獨註明。定金比例與支付方式詳情請諮詢客服。"),
     ("05", "製作與交付",
-     '製作期間會回報進度，完工後以影片確認，再寄出或到店取件。周期：<span class="todo">【待補：製作周期】</span>。'),
+     "各品類製作周期大致為：手鐲 7–12 個工作日，吊墜 7–12 個工作日，戒面鑲嵌 7–10 個工作日，雕件擺件 15–30 個工作日，對牌 7–15 個工作日。會根據製作工序酌情記錄相關照片和影片。寄送與到店取貨方式見下方品質保障。"),
 ]
 def step_item(num, title, desc):
     return f'<li><span class="n" aria-hidden="true">{num}</span><h3>{title}</h3><p>{desc}</p></li>'
 
 TRUST = [
-    ("作者署名", "完成後會註明作者為楊樹明老師或團隊成員。"),
-    ("證書", '檢測機構：<span class="todo">【待補：檢測機構】</span>'),
-    ("交付", '<span class="todo">【待補：寄送地區與方式】</span>'),
-    ("售後", '<span class="todo">【待補：修改、保養、退換規則】</span>'),
+    ("作者署名", "雕工標準和檔次由客戶自行選擇，根據實際負責人署名。"),
+    ("證書", "證書由 NGTC 或 HSNGTC 出具。"),
+    ("寄送", "我們與順豐國際快遞合作，業務範圍覆蓋全球 200 多個國家及地區；實際可否寄達請諮詢客服。預設順豐國際快遞，保價服務可諮詢客服。"),
+    ("到店取貨", "目前僅支持騰衝、瑞麗和香港門店到店取貨。"),
 ]
 def trust_card(title, desc):
     return f'<article class="card"><h3>{title}</h3><p>{desc}</p></article>'
 
 FAQS = [
-    ("最低預算多少？", '起訂預算見<span class="todo">【待補：起訂預算區間】</span>。歡迎先告訴顧問用途與偏好，再一起看適配的料與方案。'),
-    ("多久完成？", '製作周期見<span class="todo">【待補：製作周期】</span>。確認設計與定金後開始計算，顧問會同步進度。'),
-    ("可以用自己的料嗎？", '<span class="todo">【待補：是否接受客戶自帶料，以及注意事項】</span>'),
-    ("海外怎麼收貨？", '<span class="todo">【待補：可寄送的國家或地區與方式】</span>'),
-    ("證書是哪家？", '<span class="todo">【待補：檢測機構】</span>'),
-    ("不滿意怎麼辦？", '<span class="todo">【待補：修改、保養、退換規則】</span>'),
+    ("最低預算多少？", "最低100元即可體驗緬甸天然A貨翡翠。南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。各件訂製方案與預算請諮詢客服。"),
+    ("多久完成？", "各品類製作周期大致為：手鐲 7–12 個工作日，吊墜 7–12 個工作日，戒面鑲嵌 7–10 個工作日，雕件擺件 15–30 個工作日，對牌 7–15 個工作日。"),
+    ("海外客戶怎麼收貨、怎麼付款？", "我們與順豐國際快遞合作，業務範圍覆蓋全球 200 多個國家及地區；實際可否寄達請諮詢客服。預設順豐國際快遞，保價服務可諮詢客服。定金比例與支付方式詳情請諮詢客服。"),
+    ("證書是哪家？", "證書由 NGTC 或 HSNGTC 出具。"),
 ]
 def faq_item(q, a):
     return f'<details><summary><span>{q}</span></summary><p>{a}</p></details>'
 
+def faq_jsonld(faqs):
+    data = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+            for q, a in faqs
+        ],
+    }
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    return f'<script type="application/ld+json">{payload}</script>'
+
 custom_body = f"""<main id="main">
-<!-- TODO when real content arrives: flip robots to index,follow; add /custom to sitemap.xml; add internal links from homepage, /master, /stores, /team (and nav/footer). Do not add FAQPage JSON-LD until placeholder answers are replaced. -->
+<!-- Keep robots noindex,follow; do not add /custom to sitemap.xml or internal nav until explicitly requested. -->
 <header class="hero seo-custom-hero">
 <picture><source srcset="/img/master-yang3.webp" type="image/webp"><img src="/img/master-yang3.jpg" width="1500" height="1000" fetchpriority="high" alt="玉雕大師楊樹明雕琢翡翠 / Master Yang Shuming carving jadeite"></picture>
 <div class="htxt">
@@ -305,7 +313,7 @@ custom_body = f"""<main id="main">
 <div class="wrap">
 <p class="eyebrow">可訂製品類</p>
 <h2>可以訂製什麼</h2>
-<p class="lead">以下為規劃中的訂製品類；各品類說明與實拍圖將於資料齊備後更新。</p>
+<p class="lead">可訂製手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。</p>
 <div class="grid">
 {''.join(cat_card(*c) for c in CATS)}
 </div>
@@ -330,7 +338,7 @@ custom_body = f"""<main id="main">
 <div class="wrap">
 <p class="eyebrow">常見問題</p>
 <h2>常見問題</h2>
-<!-- TODO: add FAQPage JSON-LD after placeholder answers are replaced with real copy. -->
+{faq_jsonld(FAQS)}
 <div class="seo-faq">
 {''.join(faq_item(*f) for f in FAQS)}
 </div>
