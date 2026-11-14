@@ -253,7 +253,7 @@ def cat_card(title, desc, img=None, alt=None, w=None, h=None):
 
 STEPS = [
     ("01", "溝通需求",
-     "南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。最低100元即可體驗緬甸天然A貨翡翠。"),
+     "南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。"),
     ("02", "選料",
      "可透過影片或到店看料，確認原石或成品料。"),
     ("03", "確認設計",
@@ -276,7 +276,7 @@ def trust_card(title, desc):
     return f'<article class="card"><h3>{title}</h3><p>{desc}</p></article>'
 
 FAQS = [
-    ("最低預算多少？", "最低100元即可體驗緬甸天然A貨翡翠。南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。各件訂製方案與預算請諮詢客服。"),
+    ("最低預算多少？", "各件訂製方案與預算請諮詢客服。最低100元即可體驗緬甸天然A貨翡翠，這不是訂製報價。"),
     ("多久完成？", "各品類製作周期大致為：手鐲 7–12 個工作日，吊墜 7–12 個工作日，戒面鑲嵌 7–10 個工作日，雕件擺件 15–30 個工作日，對牌 7–15 個工作日。"),
     ("海外客戶怎麼收貨、怎麼付款？", "我們與順豐國際快遞合作，業務範圍覆蓋全球 200 多個國家及地區；實際可否寄達請諮詢客服。預設順豐國際快遞，保價服務可諮詢客服。定金比例與支付方式詳情請諮詢客服。"),
     ("證書是哪家？", "證書由 NGTC 或 HSNGTC 出具。"),
@@ -305,7 +305,7 @@ custom_body = f"""<main id="main">
 <header class="hero seo-custom-hero">
 <picture><source srcset="/img/master-yang3.webp" type="image/webp"><img src="/img/master-yang3.jpg" width="1500" height="1000" fetchpriority="high" alt="玉雕大師楊樹明雕琢翡翠 / Master Yang Shuming carving jadeite"></picture>
 <div class="htxt">
-<h1>翡翠訂製</h1>
+<h1>翡翠定制</h1>
 <p class="sub">楊樹明老師團隊・一對一翡翠訂製</p>
 <div class="btns"><a class="btn fill" href="/contact">聯繫專屬顧問</a></div>
 </div></header>
@@ -313,7 +313,7 @@ custom_body = f"""<main id="main">
 <div class="wrap">
 <p class="eyebrow">可訂製品類</p>
 <h2>可以訂製什麼</h2>
-<p class="lead">可訂製手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。</p>
+<p class="lead">翡翠定制包括手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。</p>
 <div class="grid">
 {''.join(cat_card(*c) for c in CATS)}
 </div>
@@ -352,8 +352,8 @@ custom_body = f"""<main id="main">
 </main>
 """
 write("custom.html",
-      page_head("翡翠訂製｜南詔工匠 楊樹明老師團隊 | Nanzhao Arts",
-                "楊樹明老師團隊提供一對一翡翠訂製。了解可訂製品類、訂製流程與聯繫方式，由專屬顧問協助溝通需求。",
+      page_head("翡翠定制｜南詔工匠 楊樹明老師團隊 | Nanzhao Arts",
+                "楊樹明老師團隊提供一對一翡翠定制。了解可訂製品類、訂製流程與聯繫方式，由專屬顧問協助溝通需求。",
                 "/custom")
       + nav("/custom") + custom_body + FOOT)
 

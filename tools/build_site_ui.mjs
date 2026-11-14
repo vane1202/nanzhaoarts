@@ -26,8 +26,8 @@ for(const row of [
  ['楊樹明老師｜騰衝翡翠玉雕','杨树明老师｜腾冲翡翠玉雕','Master Yang Shuming | Jade carving in Tengchong'],
  ['© 2026 南詔工匠 · 騰衝南詔珠寶有限公司 · nanzhaoarts.com · 品牌展示網站，不提供線上交易','© 2026 南诏工匠 · 腾冲南诏珠宝有限公司 · nanzhaoarts.com · 品牌展示网站，不提供在线交易','© 2026 Nanzhao Arts · Tengchong Nanzhao Jewelry Co., Ltd. · nanzhaoarts.com · Brand showcase site; no online sales.'],
  ['門店地址與地圖導航請見<a href="/stores">門店頁</a>；團隊介紹請見<a href="/team">南詔團隊</a>。本站為品牌展示網站，不提供線上交易。','门店地址与地图导航请见<a href="/stores">门店页</a>；团队介绍请见<a href="/team">南诏团队</a>。本站为品牌展示网站，不提供在线交易。','For addresses and directions, see <a href="/stores">stores</a>; meet <a href="/team">our team</a>. This is a brand showcase website; no online sales.']
- ,['翡翠訂製','翡翠订制','Custom Jadeite'],['楊樹明老師團隊・一對一翡翠訂製','杨树明老师团队・一对一翡翠订制',"Master Yang Shuming's team · one-to-one custom jadeite"],['聯繫專屬顧問','联系专属顾问','Contact your consultant'],
- ['可訂製品類','可订制品类','What we can make'],['可以訂製什麼','可以订制什么','What can be commissioned'],['可訂製手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。','可订制手镯、吊坠、戒面镶嵌、雕件摆件与对牌，亦可选购翡翠原石收藏。','Commissions include bangles, pendants, cabochon settings, carvings and pair plaques. Jadeite rough is also available for collection.'],
+ ,['翡翠訂製','翡翠定制','Custom Jadeite'],['翡翠定制','翡翠定制','Custom Jadeite'],['楊樹明老師團隊・一對一翡翠訂製','杨树明老师团队・一对一翡翠定制',"Master Yang Shuming's team · one-to-one custom jadeite"],['聯繫專屬顧問','联系专属顾问','Contact your consultant'],
+ ['可訂製品類','可订制品类','What we can make'],['可以訂製什麼','可以订制什么','What can be commissioned'],['翡翠定制包括手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。','翡翠定制包括手镯、吊坠、戒面镶嵌、雕件摆件与对牌，亦可选购翡翠原石收藏。','Custom jadeite includes bangles, pendants, cabochon settings, carvings and pair plaques. Jadeite rough is also available for collection.'],
  ['待補實拍圖','待补实拍图','Photo to be supplied'],
  ['手鐲','手镯','Bangles'],['吊墜','吊坠','Pendants'],['戒面鑲嵌','戒面镶嵌','Cabochons and setting'],['雕件擺件','雕件摆件','Carvings and ornaments'],['對牌／禮贈','对牌／礼赠','Pair plaques and gifts'],['翡翠收藏','翡翠收藏','Jadeite rough collection'],
  ['按手圍選料，圈口與條型可訂製','按手围选料，圈口与条型可订制',"Stone chosen for your wrist; size and profile made to order."],
@@ -38,7 +38,7 @@ for(const row of [
  ['精選翡翠原石，開窗見種色，可藏可訂製','精选翡翠原石，开窗见种色，可藏可订制',"Selected jadeite rough, windowed to show color. Collect or carve to order."],
  ['從溝通到交付','从沟通到交付','From first conversation to delivery'],['訂製流程','订制流程','The commissioning process'],
  ['溝通需求','沟通需求','Share your needs'],['選料','选料','Choose the stone'],['確認設計','确认设计','Approve the design'],['報價與定金','报价与定金','Quotation and deposit'],['製作與交付','制作与交付','Making and delivery'],
- ['南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。最低100元即可體驗緬甸天然A貨翡翠。','南诏工匠位于缅甸翡翠源头市场，自有一定规模的原石、成品货盘优势。与专属顾问说明用途、预算区间，以及喜欢的种水与颜色。最低100元即可体验缅甸天然A货翡翠。','Nanzhao Arts is based in the source market for Burmese jadeite and holds a sizeable selection of rough stones and finished pieces. Tell your consultant the intended use, budget range, and the texture and colour you prefer. From 100 yuan, you can experience natural Type A Burmese jadeite.'],
+ ['南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。與專屬顧問說明用途、預算區間，以及喜歡的種水與顏色。','南诏工匠位于缅甸翡翠源头市场，自有一定规模的原石、成品货盘优势。与专属顾问说明用途、预算区间，以及喜欢的种水与颜色。','Nanzhao Arts is based in the source market for Burmese jadeite and holds a sizeable selection of rough stones and finished pieces. Tell your consultant the intended use, budget range, and the texture and colour you prefer.'],
  ['可透過影片或到店看料，確認原石或成品料。','可通过视频或到店看料，确认原石或成品料。','View stones by video or in store, and confirm the rough or finished material.'],
  ['初稿和定稿一般以手稿或電子稿形式呈現；在材料特性的基礎上，盡量滿足客戶的需求。','初稿和定稿一般以手稿或电子稿形式呈现；在材料特性的基础上，尽量满足客户的需求。','Initial and final drafts are generally presented as hand-drawn or electronic sketches. Within the properties of the material, we try to meet the client\'s wishes.'],
  ['報價透明，訂製過程中的每一項環節都單獨註明。定金比例與支付方式詳情請諮詢客服。','报价透明，订制过程中的每一项环节都单独注明。定金比例与支付方式详情请咨询客服。','Quotations are transparent: each step in the commissioning process is itemised separately. For the deposit ratio and payment methods, please consult customer service.'],
@@ -53,7 +53,7 @@ for(const row of [
  ['多久完成？','多久完成？','How long does it take?'],
  ['海外客戶怎麼收貨、怎麼付款？','海外客户怎么收货、怎么付款？','How do overseas clients receive their pieces, and how do they pay?'],
  ['證書是哪家？','证书是哪家？','Which laboratory issues the certificate?'],
- ['最低100元即可體驗緬甸天然A貨翡翠。南詔工匠位於緬甸翡翠源頭市場，自有一定規模的原石、成品貨盤優勢。各件訂製方案與預算請諮詢客服。','最低100元即可体验缅甸天然A货翡翠。南诏工匠位于缅甸翡翠源头市场，自有一定规模的原石、成品货盘优势。各件订制方案与预算请咨询客服。','From 100 yuan, you can experience natural Type A Burmese jadeite. Nanzhao Arts is based in the source market for Burmese jadeite and holds a sizeable selection of rough stones and finished pieces. For a specific commission and budget, please consult customer service.'],
+ ['各件訂製方案與預算請諮詢客服。最低100元即可體驗緬甸天然A貨翡翠，這不是訂製報價。','各件订制方案与预算请咨询客服。最低100元即可体验缅甸天然A货翡翠，这不是订制报价。','For a specific commission and budget, please consult customer service. From 100 yuan, you can experience natural Type A Burmese jadeite. That price is not a custom-commission quote.'],
  ['各品類製作周期大致為：手鐲 7–12 個工作日，吊墜 7–12 個工作日，戒面鑲嵌 7–10 個工作日，雕件擺件 15–30 個工作日，對牌 7–15 個工作日。','各品类制作周期大致为：手镯 7–12 个工作日，吊坠 7–12 个工作日，戒面镶嵌 7–10 个工作日，雕件摆件 15–30 个工作日，对牌 7–15 个工作日。','Typical production times are: bangles, 7–12 working days; pendants, 7–12 working days; cabochon setting, 7–10 working days; carvings, 15–30 working days; pair plaques, 7–15 working days.'],
  ['我們與順豐國際快遞合作，業務範圍覆蓋全球 200 多個國家及地區；實際可否寄達請諮詢客服。預設順豐國際快遞，保價服務可諮詢客服。定金比例與支付方式詳情請諮詢客服。','我们与顺丰国际快递合作，业务范围覆盖全球 200 多个国家及地区；实际可否寄达请咨询客服。默认顺丰国际快递，保价服务可咨询客服。定金比例与支付方式详情请咨询客服。','We work with SF International Express, whose service network covers more than 200 countries and regions worldwide. Please consult customer service for whether a given destination can be served. The default shipping method is SF International Express; insured shipping can be arranged through customer service. For the deposit ratio and payment methods, please consult customer service.'],
  ['了解翡翠訂製 ↗','了解翡翠订制 ↗','Learn more about custom jadeite ↗'],
@@ -76,8 +76,8 @@ for(let i=0;i<source.length;i++){
 }
 const inject=s=>{
  s=s.replace('data-en="Worried " master="" work"="" is="" just="" a="" label?"=""','data-en="Worried &quot;master work&quot; is just a label?"');
- if(!s.includes('href="/site-ui.css'))s=s.replace('</head>','<link rel="stylesheet" href="/site-ui.css?v=20261114"></head>');
- s=s.replace(/\/site-ui\.css\?v=[^" ]+/g,'/site-ui.css?v=20261114');
+ if(!s.includes('href="/site-ui.css'))s=s.replace('</head>','<link rel="stylesheet" href="/site-ui.css?v=20261114c"></head>');
+ s=s.replace(/\/site-ui\.css\?v=[^" ]+/g,'/site-ui.css?v=20261114c');
  s=s.replace(/\/site-ui\.js\?v=[^" ]+/g,'/site-ui.js?v=20261114');
  if(!s.includes('src="/site-ui.js'))s=s.replace('</body>','<script src="/site-ui.js?v=20261114" defer></script></body>');
  return s;
