@@ -78,8 +78,8 @@ const inject=s=>{
  s=s.replace('data-en="Worried " master="" work"="" is="" just="" a="" label?"=""','data-en="Worried &quot;master work&quot; is just a label?"');
  if(!s.includes('href="/site-ui.css'))s=s.replace('</head>','<link rel="stylesheet" href="/site-ui.css?v=20261114c"></head>');
  s=s.replace(/\/site-ui\.css\?v=[^" ]+/g,'/site-ui.css?v=20261114c');
- s=s.replace(/\/site-ui\.js\?v=[^" ]+/g,'/site-ui.js?v=20261114');
- if(!s.includes('src="/site-ui.js'))s=s.replace('</body>','<script src="/site-ui.js?v=20261114" defer></script></body>');
+ s=s.replace(/\/site-ui\.js\?v=[^" ]+/g,'/site-ui.js?v=20261120');
+ if(!s.includes('src="/site-ui.js'))s=s.replace('</body>','<script src="/site-ui.js?v=20261120" defer></script></body>');
  return s;
 };
 for(const p of ['master.html','stores.html','contact.html','custom.html']){

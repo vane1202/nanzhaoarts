@@ -290,7 +290,7 @@ const TEAM=[1,2,3,4].map(i=>({slug:'a'+i,
 }));
 Object.assign(TEAM[0],{img:'/img/team-a1.webp',whatsapp:'8617587115637',video:{yt:'',fb:'https://www.facebook.com/reel/1633329301766649',poster:'/img/video-a1.webp?v=3'},facebook:'https://www.facebook.com/profile.php?id=61552356396891'});TEAM[0].zh.n='张伟';TEAM[0].zh.r='「南诏工匠」珠宝品牌创始人';TEAM[0].en.n='Zhang Wei';TEAM[0].en.r='Founder, Nanzhao Arts Jewelry';
 Object.assign(TEAM[1],{img:'/img/team-a2-stairs-9x16.webp',imgRatio:'9/16',whatsapp:'8615394805302',video:{yt:'',fb:'https://www.facebook.com/reel/4002130003429958',poster:'/img/video-a2.webp'},facebook:'https://www.facebook.com/profile.php?id=61550201366795'});TEAM[1].zh.n='张圆';TEAM[1].zh.r='「南诏工匠」董事长';TEAM[1].en.n='Zhang Yuan';TEAM[1].en.r='Chairman, Nanzhao Arts';
-Object.assign(TEAM[2],{img:'/img/team-a3.webp',facebook:'https://www.facebook.com/profile.php?id=100092552777975',whatsapp:'8613238791871',video:{yt:'',fb:'https://www.facebook.com/reel/1684487290062592',poster:'/img/video-a3.webp'}});TEAM[2].zh.n='张清雪';TEAM[2].zh.r='「南诏工匠」品牌店店长';TEAM[2].en.n='Zhang Qingxue';TEAM[2].en.r='Store Manager, Nanzhao Arts Brand Store';
+Object.assign(TEAM[2],{img:'/img/team-a3.webp',facebook:'',whatsapp:'',video:{yt:'',fb:'https://www.facebook.com/reel/1684487290062592',poster:'/img/video-a3.webp'}});TEAM[2].zh.n='张清雪';TEAM[2].zh.r='「南诏工匠」品牌店店长';TEAM[2].en.n='Zhang Qingxue';TEAM[2].en.r='Store Manager, Nanzhao Arts Brand Store';
 Object.assign(TEAM[3],{img:'/img/team-a4.webp',facebook:'https://www.facebook.com/profile.php?id=100095150474571',whatsapp:'8613320456149',video:{yt:'',fb:'https://www.facebook.com/reel/1734231688266352',poster:'/img/video-a4.webp'}});TEAM[3].zh.n='文强';TEAM[3].zh.r='「南诏工匠」供应链负责人';TEAM[3].en.n='Wen Qiang';TEAM[3].en.r='Head of Supply Chain, Nanzhao Arts';
 /* Company general channels (used when there is no consultant) */
 const CO={whatsapp:'',line:'',lineQR:'',lineId:'',wechatQR:'',wechatId:'',email:'hello@nanzhaoarts.com'};
@@ -327,10 +327,10 @@ const PH=(t,h)=>(t=L==='zh-TW'?twc(t):t,'data:image/svg+xml;charset=utf-8,'+enco
 let L='zh-TW';
 const DAY=864e5;let P=null;
 (function(){let slug=new URLSearchParams(location.search).get('ref');
- const m=location.pathname.match(/^\/a\/([^\/]+)/);if(!slug&&m)slug=decodeURIComponent(m[1]);
+ const m=location.pathname.match(/^\/a\/(a[1-4])(?:\.html)?\/?$/);if(!slug&&m)slug=m[1];
  try{if(slug&&TEAM.some(t=>t.slug===slug))localStorage.setItem('persona',JSON.stringify({slug,exp:Date.now()+30*DAY}));
   const o=JSON.parse(localStorage.getItem('persona')||'null');if(o&&o.exp>Date.now())slug=o.slug;else{localStorage.removeItem('persona');if(!m&&!new URLSearchParams(location.search).get('ref'))slug=null}}catch(e){}
- try{localStorage.removeItem('persona')}catch(e){}slug=new URLSearchParams(location.search).get('ref')||(m?decodeURIComponent(m[1]):null);P=TEAM.find(t=>t.slug===slug)||null;if(P&&/[【】]/.test(P.zh.n))P=null;if(P){TEAM.sort((a,b)=>(b===P)-(a===P))}})(); /* persona pin only on the visit that uses /a/<slug> or ?ref, no memory */
+ try{localStorage.removeItem('persona')}catch(e){}slug=new URLSearchParams(location.search).get('ref')||(m?decodeURIComponent(m[1]):null);P=TEAM.find(t=>t.slug===slug)||null;if(P&&/[【】]/.test(P.zh.n))P=null;if(P&&!P.whatsapp)P=null;if(P){TEAM.sort((a,b)=>(b===P)-(a===P))}})(); /* persona pin only on the visit that uses /a/<slug> or ?ref, no memory; no contactable persona if WhatsApp was withdrawn */
 const wa=n=>n?'https://wa.me/'+n:'#';
 function chan(c,z){return `<div class="cbox"><h3>WhatsApp</h3><p>${z?'点击即可聊天':'Tap to chat'}</p><a class="btn fill" target="_blank" rel="noopener" href="${wa(c.whatsapp)}">${z?'WhatsApp 聊天':'Chat on WhatsApp'}</a>${c.whatsapp?'':`<p><span class="todo">${z?'【待补充：号码】':'【Number to be supplied】'}</span></p>`}</div>
 <div class="cbox"><h3>LINE</h3><a class="btn line" target="_blank" rel="noopener" href="${c.line||'#'}">${z?'添加 LINE':'Add on LINE'}</a>${c.line?'':`<p><span class="todo">${z?'【待补充：LINE 链接】':'【LINE link to be supplied】'}</span></p>`}${c.lineQR?`<img class="qr" loading="lazy" src="${c.lineQR}" alt="LINE QR" style="margin-top:12px">`:`<div class="qr ph" style="color:#777;border-color:#bbb;background:#fff;margin-top:12px">${z?'【待补充：LINE 二维码】':'【LINE QR to be supplied】'}</div>`}<p>${c.lineId?'LINE ID: '+c.lineId:`<span class="todo">${z?'LINE ID：【待补充】':'LINE ID: 【to be supplied】'}</span>`}</p></div>
@@ -443,4 +443,4 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')g.hidden=tru
 g.querySelectorAll('[data-k]').forEach(function(a){a.addEventListener('click',function(){setTimeout(function(){g.hidden=true},300)})});
 document.getElementById('mcopy').onclick=function(){var t=cur.querySelector('.maddr').textContent;mapCopy(t);g.hidden=true};})();
 </script>
-<script src="/round2/design.js" defer></script><script src="/site-ui.js?v=20261114" defer></script></body></html>
+<script src="/round2/design.js" defer></script><script src="/site-ui.js?v=20261120" defer></script></body></html>

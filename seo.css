@@ -68,3 +68,9 @@
   .seo-steps{padding-left:28px}
   .seo-steps .n{left:-43px}
 }
+
+/* /contact team cards: three people, centered; stack on small screens. */
+.seo-contact .cgrid-team{grid-template-columns:repeat(3,minmax(0,1fr));max-width:920px;margin-left:auto;margin-right:auto}
+@media(max-width:760px){
+  .seo-contact .cgrid-team{grid-template-columns:1fr;max-width:420px}
+}

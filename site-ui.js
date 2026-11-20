@@ -9,7 +9,6 @@
  const adviserData=[
   ['a1','张伟','張偉','Zhang Wei','8617587115637'],
   ['a2','张圆','張圓','Zhang Yuan','8615394805302'],
-  ['a3','张清雪','張清雪','Zhang Qingxue','8613238791871'],
   ['a4','文强','文強','Wen Qiang','8613320456149']
  ];
  const ref=new URLSearchParams(location.search).get('ref')||location.pathname.match(/^\/a\/(a[1-4])(?:\.html)?\/?$/)?.[1];

@@ -47,7 +47,7 @@ def page_head(title, desc, path, robots="index,follow"):
 <meta property="og:type" content="website"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:image" content="{BASE}/img/og-cover.jpg"><meta property="og:url" content="{url}">
 {ICONS}
 {STYLES}
-<link rel="stylesheet" href="/round1/fixes.css"><link rel="stylesheet" href="/round2/design.css?v=hero-a-wide-20261103"><link rel="stylesheet" href="/seo.css?v=custom-20261112b">
+<link rel="stylesheet" href="/round1/fixes.css"><link rel="stylesheet" href="/round2/design.css?v=hero-a-wide-20261103"><link rel="stylesheet" href="/seo.css?v=contact-20261120">
 </head>
 """
 
@@ -88,8 +88,7 @@ TEAM = [
          fb="https://www.facebook.com/profile.php?id=61552356396891", reel="https://www.facebook.com/reel/1633329301766649"),
     dict(n="張圓", r="「南詔工匠」董事長", img="/img/team-a2-stairs-9x16.webp", wa="8615394805302",
          fb="https://www.facebook.com/profile.php?id=61550201366795", reel="https://www.facebook.com/reel/4002130003429958"),
-    dict(n="張清雪", r="「南詔工匠」品牌店店長", img="/img/team-a3.webp", wa="8613238791871",
-         fb="https://www.facebook.com/profile.php?id=100092552777975", reel="https://www.facebook.com/reel/1684487290062592"),
+    # 張清雪 remains on the team data in index.html as a profile, but has no public contact card.
     dict(n="文強", r="「南詔工匠」供應鏈負責人", img="/img/team-a4.webp", wa="8613320456149",
          fb="https://www.facebook.com/profile.php?id=100095150474571", reel="https://www.facebook.com/reel/1734231688266352"),
 ]
@@ -218,13 +217,13 @@ contact_body = f"""<main id="main">
 <h2 class="seo-h3 seo-sub">品牌聯繫</h2>
 <div class="cgrid"><div class="cbox"><h3>電子郵件</h3><p><a href="mailto:hello@nanzhaoarts.com">hello@nanzhaoarts.com</a></p></div></div>
 <h2 class="seo-h3 seo-sub">團隊成員個人聯繫</h2>
-<div class="cgrid">{''.join(pcontact(p) for p in TEAM)}</div>
+<div class="cgrid cgrid-team">{''.join(pcontact(p) for p in TEAM)}</div>
 <p class="seo-note">門店地址與地圖導航請見<a href="/stores">門店頁</a>；團隊介紹請見<a href="/team">南詔團隊</a>。本站為品牌展示網站，不提供線上交易。</p>
 </div></section></main>
 """
 write("contact.html",
       page_head("聯繫南詔工匠｜定製雕刻、看料賞玉諮詢 | 南詔工匠 Nanzhao Arts",
-                "聯繫南詔工匠：品牌電子郵件，以及團隊成員張偉、張圓、張清雪、文強的 WhatsApp 與 Facebook，洽詢定製雕刻、看料賞玉與到店。", "/contact")
+                "聯繫南詔工匠：品牌電子郵件，以及團隊成員張偉、張圓、文強的 WhatsApp 與 Facebook，洽詢定製雕刻、看料賞玉與到店。", "/contact")
       + nav("/contact") + contact_body + FOOT)
 
 # ---------- /custom ----------
