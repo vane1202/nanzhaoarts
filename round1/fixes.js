@@ -43,7 +43,7 @@
  const originalSetLang=setLang;setLang=function(...args){originalSetLang(...args);document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',String(b.classList.contains('on'))));if(lb.classList.contains('open'))showWork();};
 
  const lb=document.getElementById('lb');lb.classList.add('r1-work');lb.setAttribute('aria-labelledby','r1WorkTitle');
- lb.innerHTML='<div class="r1-work-panel" tabindex="-1"><div class="r1-work-toolbar"><span id="r1WorkLabel"></span><button class="r1-close" type="button">×</button></div><div class="r1-work-image"><img alt=""><p class="r1-image-status" role="status"></p><button class="r1-retry" type="button" hidden></button></div><div class="r1-work-copy"><h2 id="r1WorkTitle"></h2><p class="r1-work-by"></p><p class="r1-work-spec" hidden></p><p class="r1-work-description"></p><div class="r1-work-actions"><button id="r1Prev" type="button"></button><button id="r1Next" type="button"></button><a class="btn" href="#contact" id="r1WorkContact"></a></div></div></div>';
+ lb.innerHTML='<div class="r1-work-panel" tabindex="-1"><div class="r1-work-toolbar"><span id="r1WorkLabel"></span><button class="r1-close" type="button">×</button></div><div class="r1-work-image"><img alt=""><p class="r1-image-status" role="status"></p><button class="r1-retry" type="button" hidden></button></div><div class="r1-work-copy"><h2 id="r1WorkTitle"></h2><p class="r1-work-by"></p><p class="r1-work-spec" hidden></p><p class="r1-work-description"></p><div class="r1-work-actions"><button id="r1Prev" type="button"></button><button id="r1Next" type="button"></button><a class="btn" href="#contact" id="r1WorkContact"></a><a class="r2-link" id="r1WorkPage" hidden></a></div></div></div>';
  let workIndex=0,workTrigger=null;
  const image=lb.querySelector('img'),status=lb.querySelector('.r1-image-status'),retry=lb.querySelector('.r1-retry');
  function imageReady(){status.textContent='';retry.hidden=true;}
@@ -61,6 +61,8 @@
   const specNode=lb.querySelector('.r1-work-spec');specNode.hidden=!spec;specNode.textContent=spec?content(spec[0]):'';
   const current=indices(),position=current.indexOf(workIndex);lb.querySelector('#r1Prev').disabled=position<=0;lb.querySelector('#r1Next').disabled=position>=current.length-1;
   lb.querySelector('#r1Prev').textContent=text('上一件','Previous','上一件');lb.querySelector('#r1Next').textContent=text('下一件','Next','下一件');lb.querySelector('#r1WorkContact').textContent=text('交流这件作品','Ask about this work','交流這件作品');
+  const pageLink=lb.querySelector('#r1WorkPage'),slug=(work.full||'').match(/\/img\/works\/([a-z0-9-]+)-full\.webp/)?.[1];
+  if(pageLink){pageLink.hidden=!slug;if(slug){pageLink.href='/works/'+slug;pageLink.textContent=text('作品独立页 ↗','Artwork page ↗','作品獨立頁 ↗');}}
   status.textContent=text('图片加载中…','Loading image…','圖片載入中…');retry.hidden=true;image.alt=content(x.t);image.src=work.full||work.src;
   if(image.complete&&image.naturalWidth)imageReady();
  }

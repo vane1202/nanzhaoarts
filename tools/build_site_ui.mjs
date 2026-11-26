@@ -119,6 +119,21 @@ const customDir=path.join(root,'custom');
 if(fs.existsSync(customDir)){
  for(const f of fs.readdirSync(customDir).filter(n=>n.endsWith('.html')).sort())decoratePage(path.join('custom',f));
 }
+const worksDir=path.join(root,'works');
+if(fs.existsSync(worksDir)){
+ for(const f of fs.readdirSync(worksDir).filter(n=>n.endsWith('.html')).sort()){
+  const p=path.join('works',f);
+  let s=read(p);
+  const decorate=text=>text.replace(re(),(all,tag,attrs,html)=>{
+   if(/\bdata-ui-en=/.test(attrs))return all;
+   const row=dictionary.get(decode(html));
+   return row?`<${tag}${attrs} data-ui-cn="${attr(row[0])}" data-ui-tw="${attr(row[1])}" data-ui-en="${attr(row[2])}">${html}</${tag}>`:`<${tag}${attrs}>${decorate(html)}</${tag}>`;
+  });
+  s=decorate(s);
+  if(!s.includes('class="lang"'))s=s.replace('<button class="burger"','<div class="lang" aria-label="Language"><button type="button" data-l="zh-TW">繁中</button><button type="button" data-l="zh-CN">简中</button><button type="button" data-l="en">EN</button></div><button class="burger"');
+  write(p,inject(s));
+ }
+}
 write('index.html',inject(idx));
 write('team.html',inject(read('team.html')));
 for(let i=1;i<=4;i++)write(`a/a${i}.html`,inject(read(`a/a${i}.html`)));

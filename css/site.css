@@ -17,6 +17,7 @@
   --radius:1px;
 }
 html[lang="zh-TW"]{--serif:"NZ Serif TC","Songti TC","Noto Serif TC","Noto Serif CJK TC","Source Han Serif TC",Georgia,"Times New Roman",serif}
+img{height:auto}
 
 /* ==== css/legacy-inline.css ==== */
 /* Small patches that used to sit in inline <style> blocks in the page head; same cascade position. */
@@ -388,3 +389,55 @@ html[lang="en"] :is(h1,h2){letter-spacing:.01em}
 /* Map links on /stores: one row of equal buttons instead of wrapping onto two lines. */
 .mapbtns{display:flex;flex-wrap:nowrap;gap:6px}
 .mapbtns .btn{flex:1 1 0;min-width:0;margin:0;padding:7px 4px;font-size:.8rem;letter-spacing:.02em;line-height:1.5;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- Sticky footer & short pages ---------- */
+body{display:flex;flex-direction:column;min-height:100svh}
+main{flex:1}
+main:has(>.seo-contact){display:flex;flex-direction:column}
+.seo-contact{flex:1}
+
+/* ---------- Lazy-load image placeholders ---------- */
+.seo-ph-img,.gal .tile,.r2-selected-grid .r2-art{background:#1d2a25}
+
+/* ---------- Hero visual refinement ---------- */
+@media(min-width:1001px){
+  .hero .tag{font-size:clamp(24px,2.25vw,33px);line-height:1.5;letter-spacing:.05em}
+  .hero .intro{margin-top:16px}
+}
+
+/* ---------- Culture section: larger 4:3 photography beside editorial copy ---------- */
+.culture .grid{column-gap:48px;row-gap:40px}
+.culture .card{grid-template-columns:220px minmax(0,1fr);column-gap:26px}
+.culture .card>img{width:220px!important;height:auto!important;aspect-ratio:4/3!important;align-self:start}
+@media(min-width:761px) and (max-width:1050px){
+  .culture .card{grid-template-columns:160px minmax(0,1fr);column-gap:20px}
+  .culture .card>img{width:160px!important}
+}
+@media(max-width:760px){
+  .culture .card{grid-template-columns:132px minmax(0,1fr);gap:0 18px}
+  .culture .card>img{width:132px!important}
+}
+
+/* ---------- Dedicated artwork detail pages (/works/*) ---------- */
+.work-page{padding:64px 0 88px}
+.work-crumb{font-size:.85rem;color:var(--gold-text);margin-bottom:20px;letter-spacing:.04em}
+.work-crumb a{text-decoration:underline;text-underline-offset:4px}
+.work-crumb span{opacity:.65;margin:0 8px}
+.work-stage{background:#0c130f;border:1px solid #b8955a44;padding:clamp(16px,3vw,36px);margin:24px 0 32px;display:flex;justify-content:center;align-items:center}
+.work-stage img{width:auto;max-width:100%;height:auto;max-height:72vh;object-fit:contain}
+.work-meta{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;padding-bottom:18px;border-bottom:1px solid #b8955a55;font-size:.92rem;color:#55615b}
+.work-meta a{color:var(--jade);text-decoration:underline;text-underline-offset:4px}
+.work-essay{max-width:62ch;margin-top:24px;font-size:1.05rem;line-height:2;color:var(--ink)}
+.work-page .cta{text-align:left;margin-top:32px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.work-page .cta .btn{margin:0}
+.work-pager{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:56px;padding-top:28px;border-top:1px solid #b8955a55}
+.work-pager a{display:flex;flex-direction:column;gap:4px;padding:16px 20px;border:1px solid #b8955a55;text-decoration:none;transition:border-color .2s,background .2s}
+.work-pager a:hover{border-color:var(--jade);background:#fff8}
+.work-pager .next{text-align:right}
+.work-pager small{font-size:.78rem;letter-spacing:.1em;color:var(--gold-text)}
+.work-pager strong{font-family:var(--serif);font-weight:500;font-size:1.15rem;color:var(--ink)}
+@media(max-width:760px){
+  .work-page{padding:40px 0 64px}
+  .work-pager{grid-template-columns:1fr}
+  .work-pager .next{text-align:left}
+}

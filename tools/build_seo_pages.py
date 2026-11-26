@@ -36,8 +36,14 @@ HEAD = idx[:head_end]
 STYLES = "".join(re.findall(r"<style>.*?</style>", HEAD, re.S))
 ICONS = re.search(r'<meta name="theme-color".*?apple-touch-icon" href="[^"]+">', HEAD, re.S).group(0)
 
-def page_head(title, desc, path, robots="index,follow"):
+def jsonld_tag(data):
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    return f'<script type="application/ld+json">{payload}</script>'
+
+def page_head(title, desc, path, robots="index,follow", og_image=None, jsonld=None):
     url = f"{BASE}{path}"
+    img = og_image or f"{BASE}/img/og-cover.jpg"
+    ld = ("\n" + jsonld_tag(jsonld)) if jsonld else ""
     return f"""<!doctype html>
 <html lang="zh-TW"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -45,10 +51,10 @@ def page_head(title, desc, path, robots="index,follow"):
 <link rel="canonical" href="{url}">
 <meta name="robots" content="{robots}">
 <meta name="description" content="{desc}">
-<meta property="og:type" content="website"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:image" content="{BASE}/img/og-cover.jpg"><meta property="og:url" content="{url}">
+<meta property="og:type" content="website"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:image" content="{img}"><meta property="og:url" content="{url}">
 {ICONS}
 {STYLES}
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/site.css">{ld}
 </head>
 """
 
@@ -116,9 +122,19 @@ master_body = f"""<main id="main">
 {f}
 </main>
 """
+master_ld = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "楊樹明",
+    "alternateName": ["杨树明", "Yang Shuming"],
+    "jobTitle": "玉雕師・省級非遺代表性傳承人",
+    "url": f"{BASE}/master",
+    "image": f"{BASE}/img/master-yang2.webp",
+    "worksFor": {"@type": "Organization", "name": "南詔工匠 Nanzhao Arts", "url": f"{BASE}/"},
+}
 write("master.html",
       page_head("楊樹明老師｜騰衝翡翠玉雕大師 | 南詔工匠 Nanzhao Arts",
-                "楊樹明，雲南騰衝玉雕師、省級非遺代表性傳承人，南詔工匠品牌創始人。了解他的師承、代表作《風雪夜歸人》、榮譽與從藝年表。", "/master")
+                "楊樹明，雲南騰衝玉雕師、省級非遺代表性傳承人，南詔工匠品牌創始人。了解他的師承、代表作《風雪夜歸人》、榮譽與從藝年表。", "/master", jsonld=master_ld)
       + nav("/master") + master_body + FOOT)
 
 # ---------- /team ----------
@@ -202,9 +218,28 @@ stores_body = f"""<main id="main"><section class="loc"><div class="wrap">
 <div class="cta"><a class="btn fill" href="/contact">聯繫我們</a><a class="btn" href="/team">認識南詔團隊</a><br><a class="seo-more" href="/custom">了解翡翠訂製 ↗</a></div>
 </div></section></main>
 """
+stores_ld = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "南詔工匠門店與工作室",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": i,
+            "item": {
+                "@type": "JewelryStore",
+                "name": f"南詔工匠 · {city}",
+                "address": {"@type": "PostalAddress", "streetAddress": addr},
+                "geo": {"@type": "GeoCoordinates", "latitude": float(ll.split(",")[0]), "longitude": float(ll.split(",")[1])},
+                "url": f"{BASE}/stores",
+            },
+        }
+        for i, (city, addr, ll, _name, _gq, _note) in enumerate(STORES, 1)
+    ],
+}
 write("stores.html",
       page_head("門店與工作室｜騰衝・瑞麗・香港 | 南詔工匠 Nanzhao Arts",
-                "南詔工匠門店與工作室地址：騰衝市百寶街、瑞麗多寶之城35棟、香港旺角花園街好景商業中心，附地圖導航連結。", "/stores")
+                "南詔工匠門店與工作室地址：騰衝市百寶街、瑞麗多寶之城35棟、香港旺角花園街好景商業中心，附地圖導航連結。", "/stores", jsonld=stores_ld)
       + nav("/stores") + stores_body + FOOT)
 
 # ---------- /contact ----------
@@ -222,9 +257,21 @@ contact_body = f"""<main id="main">
 <p class="seo-note">門店地址與地圖導航請見<a href="/stores">門店頁</a>；團隊介紹請見<a href="/team">南詔團隊</a>。本站為品牌展示網站，不提供線上交易。</p>
 </div></section></main>
 """
+contact_ld = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "聯繫南詔工匠",
+    "url": f"{BASE}/contact",
+    "mainEntity": {
+        "@type": "Organization",
+        "name": "南詔工匠 Nanzhao Arts",
+        "url": f"{BASE}/",
+        "email": "hello@nanzhaoarts.com",
+    },
+}
 write("contact.html",
       page_head("聯繫南詔工匠｜定製雕刻、看料賞玉諮詢 | 南詔工匠 Nanzhao Arts",
-                "聯繫南詔工匠：品牌電子郵件，以及團隊成員張偉、張圓、文強的 WhatsApp 與 Facebook，洽詢定製雕刻、看料賞玉與到店。", "/contact")
+                "聯繫南詔工匠：品牌電子郵件，以及團隊成員張偉、張圓、文強的 WhatsApp 與 Facebook，洽詢定製雕刻、看料賞玉與到店。", "/contact", jsonld=contact_ld)
       + nav("/contact") + contact_body + FOOT)
 
 # ---------- /custom ----------
@@ -540,6 +587,72 @@ def write_category_pages(cats):
 
 
 write_category_pages(CATS)
+
+# ---------- /works/<slug> : dedicated artwork detail pages from index.html WORKS ----------
+def extract_works():
+    m = re.search(r"const WORKS=\[(.*?)\];", idx, re.S)
+    assert m, "WORKS array not found in index.html"
+    items = []
+    pat = re.compile(
+        r"\{cat:'finished',src:'([^']+)',full:'(/img/works/([a-z0-9-]+)-full\.webp)',"
+        r"artist:\{zh:'([^']+)',en:'([^']+)'\},\s*"
+        r"zh:\{t:'([^']+)',d:'([^']+)',long:'([^']+)'\},\s*"
+        r"en:\{t:'([^']+)',d:'([^']+)',long:'([^']+)'\}\}",
+        re.S,
+    )
+    for g in pat.finditer(m.group(1)):
+        items.append(dict(
+            card=g.group(1), full=g.group(2), slug=g.group(3),
+            artist_cn=g.group(4), artist_en=g.group(5),
+            t_cn=g.group(6), d_cn=g.group(7), long_cn=g.group(8),
+            t_en=g.group(9), d_en=g.group(10), long_en=g.group(11),
+        ))
+    assert len(items) == 6, f"Expected 6 finished works with full images, found {len(items)}"
+    return items
+
+WORK_DIMS = {
+    "fengxue": (2000, 948), "zizai": (2000, 924), "yulong": (2000, 952),
+    "shuangchi": (2000, 952), "chushou": (2000, 952), "yingwu": (2000, 1000),
+}
+WORKS_LIST = extract_works()
+for wi, w in enumerate(WORKS_LIST):
+    t_tw, d_tw, long_tw, artist_tw = tw(w["t_cn"]), tw(w["d_cn"]), tw(w["long_cn"]), tw(w["artist_cn"])
+    prev_w = WORKS_LIST[(wi - 1) % len(WORKS_LIST)]
+    next_w = WORKS_LIST[(wi + 1) % len(WORKS_LIST)]
+    iw, ih = WORK_DIMS[w["slug"]]
+    work_ld = {
+        "@context": "https://schema.org",
+        "@type": "VisualArtwork",
+        "name": t_tw,
+        "alternateName": w["t_en"],
+        "creator": {"@type": "Person", "name": artist_tw, "url": f"{BASE}/master"},
+        "artMedium": "翡翠 / Burmese Jadeite",
+        "artform": "玉雕 / Jade Carving",
+        "image": f"{BASE}{w['full']}",
+        "description": long_tw,
+        "url": f"{BASE}/works/{w['slug']}",
+    }
+    work_body = f"""<main id="main"><section class="work-page"><div class="wrap">
+<nav class="work-crumb" aria-label="Breadcrumb"><a href="/#gallery" data-ui-cn="作品展示" data-ui-tw="作品展示" data-ui-en="Our works">作品展示</a><span aria-hidden="true">/</span><strong data-ui-cn="{esc(w['t_cn'])}" data-ui-tw="{esc(t_tw)}" data-ui-en="{esc(w['t_en'])}">{esc(t_tw)}</strong></nav>
+<p class="eyebrow" data-ui-cn="品牌作品" data-ui-tw="品牌作品" data-ui-en="Signature Work">品牌作品</p>
+<h1 class="seo-h1" data-ui-cn="{esc(w['t_cn'])}" data-ui-tw="{esc(t_tw)}" data-ui-en="{esc(w['t_en'])}">{esc(t_tw)}</h1>
+<div class="work-meta">
+<span><span data-ui-cn="作者：" data-ui-tw="作者：" data-ui-en="Artist: ">作者：</span><a href="/master" data-ui-cn="{esc(w['artist_cn'])}" data-ui-tw="{esc(artist_tw)}" data-ui-en="{esc(w['artist_en'])}">{esc(artist_tw)}</a></span>
+<span data-ui-cn="翡翠成品" data-ui-tw="翡翠成品" data-ui-en="Finished Jadeite">翡翠成品</span>
+</div>
+<figure class="work-stage"><img src="{w['full']}" width="{iw}" height="{ih}" fetchpriority="high" alt="{esc(t_tw)} — {esc(artist_tw)}"></figure>
+<p class="work-essay" data-ui-cn="{esc(w['long_cn'])}" data-ui-tw="{esc(long_tw)}" data-ui-en="{esc(w['long_en'])}">{esc(long_tw)}</p>
+<div class="cta"><a class="btn fill" href="/contact" data-ui-cn="交流这件作品" data-ui-tw="交流這件作品" data-ui-en="Ask about this work">交流這件作品</a><a class="btn" href="/master" data-ui-cn="认识杨树明老师" data-ui-tw="認識楊樹明老師" data-ui-en="Meet Master Yang">認識楊樹明老師</a><a class="seo-more" href="/custom" data-ui-cn="了解翡翠订制 ↗" data-ui-tw="了解翡翠訂製 ↗" data-ui-en="Learn more about custom jadeite ↗">了解翡翠訂製 ↗</a></div>
+<nav class="work-pager" aria-label="More works">
+<a href="/works/{prev_w['slug']}"><small data-ui-cn="← 上一件作品" data-ui-tw="← 上一件作品" data-ui-en="← Previous work">← 上一件作品</small><strong data-ui-cn="{esc(prev_w['t_cn'])}" data-ui-tw="{esc(tw(prev_w['t_cn']))}" data-ui-en="{esc(prev_w['t_en'])}">{esc(tw(prev_w['t_cn']))}</strong></a>
+<a class="next" href="/works/{next_w['slug']}"><small data-ui-cn="下一件作品 →" data-ui-tw="下一件作品 →" data-ui-en="Next work →">下一件作品 →</small><strong data-ui-cn="{esc(next_w['t_cn'])}" data-ui-tw="{esc(tw(next_w['t_cn']))}" data-ui-en="{esc(next_w['t_en'])}">{esc(tw(next_w['t_cn']))}</strong></a>
+</nav>
+</div></section></main>
+"""
+    write(f"works/{w['slug']}.html",
+          page_head(f"{t_tw}｜{artist_tw}翡翠玉雕作品 | 南詔工匠 Nanzhao Arts",
+                    d_tw, f"/works/{w['slug']}", og_image=f"{BASE}{w['full']}", jsonld=work_ld)
+          + nav("/#gallery") + work_body + FOOT)
 
 # ---------- /a/a1..a4 : homepage experience, noindex + canonical /team ----------
 canon = '<link rel="canonical" href="https://nanzhaoarts.com/">'
