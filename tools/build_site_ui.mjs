@@ -71,7 +71,17 @@ for(const row of [
  ['我們與順豐國際快遞合作，業務範圍覆蓋全球 200 多個國家及地區；實際可否寄達請諮詢客服。預設順豐國際快遞，保價服務可諮詢客服。定金比例與支付方式詳情請諮詢客服。','我们与顺丰国际快递合作，业务范围覆盖全球 200 多个国家及地区；实际可否寄达请咨询客服。默认顺丰国际快递，保价服务可咨询客服。定金比例与支付方式详情请咨询客服。','We work with SF International Express, whose service network covers more than 200 countries and regions worldwide. Please consult customer service for whether a given destination can be served. The default shipping method is SF International Express; insured shipping can be arranged through customer service. For the deposit ratio and payment methods, please consult customer service.'],
  ['了解翡翠訂製 ↗','了解翡翠订制 ↗','Learn more about custom jadeite ↗'],
  ['開始諮詢','开始咨询','Start a conversation'],['與我們談談您的想法','与我们谈谈您的想法','Tell us about your piece'],
- ['認識楊樹明老師','认识杨树明老师','Meet Master Yang'],['查看門店','查看门店','Our stores']
+ ['認識楊樹明老師','认识杨树明老师','Meet Master Yang'],['查看門店','查看门店','Our stores'],
+ ['查看更多 →','查看更多 →','See more →'],['諮詢訂製','咨询订制','Ask about a commission'],
+ ['作品圖庫','作品图库','Works gallery'],['應用場景','应用场景','Settings and scenes'],['訂製要點','订制要点','Commissioning notes'],
+ ['其他品類','其他品类','Other categories'],['圖片待補充','图片待补充','Images coming soon'],
+ ['場景待補充','场景待补充','Scene coming soon'],['說明待補充','说明待补充','Caption coming soon'],
+ ['了解完整訂製流程 ↗','了解完整订制流程 ↗','See the full commissioning process ↗'],
+ ['溝通需求 · 選料 · 確認設計 · 報價與定金 · 製作與交付','沟通需求 · 选料 · 确认设计 · 报价与定金 · 制作与交付','Share your needs · Choose the stone · Approve the design · Quotation and deposit · Making and delivery'],
+ ['製作周期大致為 7–12 個工作日。','制作周期大致为 7–12 个工作日。','Typical production time is 7–12 working days.'],
+ ['製作周期大致為 7–10 個工作日。','制作周期大致为 7–10 个工作日。','Typical production time is 7–10 working days.'],
+ ['製作周期大致為 15–30 個工作日。','制作周期大致为 15–30 个工作日。','Typical production time is 15–30 working days.'],
+ ['製作周期大致為 7–15 個工作日。','制作周期大致为 7–15 个工作日。','Typical production time is 7–15 working days.']
 
 ]) add(...row);
 // Preserve the already published English biography and every existing fact verbatim.
@@ -90,11 +100,11 @@ for(let i=0;i<source.length;i++){
 const inject=s=>{
  s=s.replace('data-en="Worried " master="" work"="" is="" just="" a="" label?"=""','data-en="Worried &quot;master work&quot; is just a label?"');
  s=linkCss(s);
- s=s.replace(/\/site-ui\.js\?v=[^" ]+/g,'/site-ui.js?v=20261120');
- if(!s.includes('src="/site-ui.js'))s=s.replace('</body>','<script src="/site-ui.js?v=20261120" defer></script></body>');
+ s=s.replace(/\/site-ui\.js\?v=[^" ]+/g,'/site-ui.js?v=20261126');
+ if(!s.includes('src="/site-ui.js'))s=s.replace('</body>','<script src="/site-ui.js?v=20261126" defer></script></body>');
  return s;
 };
-for(const p of ['master.html','stores.html','contact.html','custom.html']){
+const decoratePage=p=>{
  let s=read(p).replace(/\sdata-ui-(?:cn|tw|en)="[^"]*"/g,'');
  const decorate=text=>text.replace(re(),(all,tag,attrs,html)=>{
   const row=dictionary.get(decode(html));
@@ -103,8 +113,13 @@ for(const p of ['master.html','stores.html','contact.html','custom.html']){
  s=decorate(s);
  if(!s.includes('class="lang"'))s=s.replace('<button class="burger"','<div class="lang" aria-label="Language"><button type="button" data-l="zh-TW">繁中</button><button type="button" data-l="zh-CN">简中</button><button type="button" data-l="en">EN</button></div><button class="burger"');
  write(p,inject(s));
+};
+for(const p of ['master.html','stores.html','contact.html','custom.html'])decoratePage(p);
+const customDir=path.join(root,'custom');
+if(fs.existsSync(customDir)){
+ for(const f of fs.readdirSync(customDir).filter(n=>n.endsWith('.html')).sort())decoratePage(path.join('custom',f));
 }
 write('index.html',inject(idx));
 write('team.html',inject(read('team.html')));
 for(let i=1;i<=4;i++)write(`a/a${i}.html`,inject(read(`a/a${i}.html`)));
-console.log('Updated 10 page shells and biography translations.');
+console.log('Updated page shells and biography translations.');

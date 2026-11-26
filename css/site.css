@@ -267,6 +267,56 @@ p{text-wrap:pretty}.btn{border-radius:1px;min-height:46px;transition:background 
   .seo-contact .cgrid-team{grid-template-columns:1fr;max-width:420px}
 }
 
+/* /custom category cards become whole-card links to /custom/<slug>. */
+.seo-custom-cats .seo-card-link{display:block;color:inherit;text-decoration:none}
+.seo-custom-cats .seo-card-link:hover .seo-card-more{color:var(--ink)}
+.seo-card-more{display:inline-block;margin-top:10px;font-size:.85rem;letter-spacing:.06em;color:var(--gold);text-underline-offset:4px}
+.seo-custom-cats .card:hover .seo-card-more{text-decoration:underline;text-decoration-thickness:1px}
+
+/* /custom/<slug> blank category pages. */
+.seo-bc{margin:0 0 16px;font-size:.9rem;letter-spacing:.06em;color:var(--gold)}
+.seo-bc a{color:var(--gold);text-decoration:none}
+.seo-bc a:hover{text-decoration:underline;text-underline-offset:4px}
+.seo-cat-hero{padding:48px 0 28px}
+.seo-cat-hero h1{margin:0 0 10px}
+.seo-cat-hero .sub{max-width:32em;margin:0 0 24px;line-height:1.7}
+.seo-cat-hero-img{max-width:760px;margin:0 0 24px;border-bottom:0;border-radius:6px}
+.seo-cat-hero .btns{margin:0}
+.seo-cat-gallery,.seo-cat-scenes,.seo-cat-points,.seo-cat-process,.seo-cat-more{padding-top:48px;padding-bottom:48px}
+.seo-slots{display:grid;gap:18px;margin-top:22px}
+.seo-slots-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.seo-slots-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.seo-slot{display:block;color:inherit;text-decoration:none}
+.seo-slot-ph .seo-ph{letter-spacing:.08em;font-size:.8rem}
+.seo-slot h3{margin:12px 0 6px;font-size:1.1rem}
+.seo-slot p,.seo-slot-cap{margin:0;font-size:.9rem;line-height:1.6}
+.seo-slot-ph h3,.seo-slot-ph p{color:#5d6b64}
+.seo-cat-facts{list-style:none;margin:22px 0 0;padding:0;max-width:720px}
+.seo-cat-facts li{position:relative;padding:0 0 14px 18px;line-height:1.7}
+.seo-cat-facts li:last-child{padding-bottom:0}
+.seo-cat-facts li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.seo-cat-strip{margin:16px 0 0;letter-spacing:.04em;line-height:1.8}
+.seo-cat-others{display:flex;flex-wrap:wrap;gap:10px 18px;list-style:none;margin:22px 0 0;padding:0}
+.seo-cat-others a{color:var(--paper);text-decoration:none;border-bottom:1px solid #b8955a99;padding-bottom:2px}
+.seo-cat-others a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.seo-cat-more .cta{margin-top:28px}
+.seo-lb{display:none;position:fixed;inset:0;z-index:80;background:rgba(12,16,14,.88);align-items:center;justify-content:center;padding:48px 24px 56px;box-sizing:border-box}
+.seo-lb.open{display:flex;flex-direction:column}
+.seo-lb img{max-width:min(1100px,100%);max-height:calc(100vh - 140px);object-fit:contain}
+.seo-lb-cap{margin:12px 0 0;color:var(--paper);text-align:center;max-width:40em}
+.seo-lb-x{position:absolute;top:14px;right:18px;width:44px;height:44px;border:1px solid var(--gold);border-radius:50%;background:transparent;color:var(--gold);font-size:1.4rem;line-height:1;cursor:pointer}
+.seo-lb-x:hover{background:var(--gold);color:var(--ink)}
+@media(max-width:1100px){
+  .seo-slots-5{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .seo-slots-5,.seo-slots-3{grid-template-columns:1fr 1fr}
+  .seo-cat-hero{padding-top:32px}
+}
+@media(max-width:480px){
+  .seo-slots-5,.seo-slots-3{grid-template-columns:1fr}
+}
+
 /* ==== site-ui.css ==== */
 /* Shared language and consultation controls; preserve the existing art direction. */
 .nav .lang button{min-width:44px;min-height:44px}

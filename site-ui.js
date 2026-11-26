@@ -117,6 +117,41 @@
    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('open')){close();burger.focus();}});
   }
  }
+
+ function galleryLightbox(){
+  const items=all('a[data-lightbox]');
+  if(!items.length)return;
+  let box=q('#seo-lb');
+  if(!box){
+   box=document.createElement('div');
+   box.id='seo-lb';
+   box.className='seo-lb';
+   box.setAttribute('role','dialog');
+   box.setAttribute('aria-modal','true');
+   box.innerHTML='<button type="button" class="seo-lb-x" aria-label="Close">×</button><img alt=""><p class="seo-lb-cap"></p>';
+   document.body.append(box);
+   const close=()=>{box.classList.remove('open');box.setAttribute('aria-hidden','true');document.body.style.overflow='';};
+   box.addEventListener('click',e=>{if(e.target===box||e.target.closest('.seo-lb-x'))close();});
+   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&box.classList.contains('open'))close();});
+   box._close=close;
+  }
+  if(box.dataset.bound==='1')return;
+  box.dataset.bound='1';
+  items.forEach(a=>{
+   a.addEventListener('click',e=>{
+    e.preventDefault();
+    const img=q('img',box),cap=q('.seo-lb-cap',box);
+    img.src=a.getAttribute('href');
+    img.alt=a.querySelector('img')?.alt||'';
+    cap.textContent=a.dataset.caption||'';
+    cap.style.display=cap.textContent?'block':'none';
+    box.classList.add('open');
+    box.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    q('.seo-lb-x',box)?.focus();
+   });
+  });
+ }
  // Keyboard activation reuses the existing player handler; an activated iframe is
  // no longer a button. Fallback links never bubble into the promo-block handler.
  document.addEventListener('keydown',e=>{const v=e.target.closest('.vid[role="button"]');if(v&&e.target===v&&['Enter',' '].includes(e.key)){e.preventDefault();v.click();}});
@@ -129,5 +164,6 @@
   const label=v.getAttribute('aria-label');
   queueMicrotask(()=>{const f=q('iframe',v);if(!f)return;v.removeAttribute('role');v.removeAttribute('tabindex');v.removeAttribute('aria-label');f.title=label||choose('品牌视频','品牌影片','Brand video');if(e.target===v)f.focus();});
  },true);
+ galleryLightbox();
  refresh();
 })();

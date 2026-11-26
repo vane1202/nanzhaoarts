@@ -7,6 +7,7 @@ Needs: pip install opencc-python-reimplemented
 Outputs (all committed, served by Cloudflare Pages as clean URLs):
   master.html team.html stores.html contact.html   -> /master /team /stores /contact
   custom.html                                      -> /custom (index,follow)
+  custom/<slug>.html                               -> /custom/<slug> (noindex,follow; not in sitemap yet)
   a/a1.html .. a/a4.html                           -> /a/a1 .. /a/a4 (copies of index.html,
                                                       noindex,follow + canonical /team)
 Re-run whenever index.html changes, otherwise /a/* will drift from the homepage.
@@ -229,15 +230,37 @@ write("contact.html",
 # ---------- /custom ----------
 # Remaining unpublished until supplied: after-sales / rework / returns, and own-material FAQ.
 # Do not invent prices, policies, revision counts, insurance coverage, or unstated guarantees.
+# Category data is the single source for /custom cards and /custom/<slug> pages.
+# To add photos later: put WebP files in /img/ and append entries to works (max 5)
+# and/or scenes (max 3). Fields:
+#   works[]  = dict(src, alt, caption="", w=None, h=None)
+#   scenes[] = dict(src, alt, title, caption, w=None, h=None)
+#   faqs[]   = (question, answer)  — the FAQ block is omitted while this is empty
+#   lead_time = e.g. "7–12 個工作日", or None to hide 訂製要點 when no other points exist
+#   points[] = extra already-published fact strings for that category only; do not invent copy
+# Do not add these slugs to sitemap.xml until the pages are ready to be indexed.
 CATS = [
-    ("手鐲", "按手圍選料，圈口與條型可訂製", "/img/custom-bangle.webp", "翡翠手鐲 / Jadeite bangles", 1600, 1200),
-    ("吊墜", "依寓意設計，楊老師團隊親手雕琢", "/img/custom-pendant-v2.webp", "翡翠吊墜 / Jadeite pendant", 1332, 999),
-    ("戒面鑲嵌", "精選戒面，按需設計鑲嵌款式", "/img/custom-ring-v3.webp", "翡翠戒指 / Jadeite ring", 1600, 1200),
-    ("雕件擺件", "因料施藝，雕琢獨一無二的擺件", "/img/custom-carving-v2.webp", "翡翠擺件 / Jadeite carving", 1600, 1200),
-    ("對牌／禮贈", "成對雕刻，適合情侶與禮贈", "/img/custom-pair.webp", "翡翠對牌 / Jadeite pair plaques", 1600, 1200),
-    ("翡翠收藏", "精選翡翠原石，開窗見種色，可藏可訂製", "/img/custom-rough.webp", "翡翠原石收藏 / Jadeite rough stone", 1080, 810),
+    dict(slug="bangles", name="手鐲", desc="按手圍選料，圈口與條型可訂製",
+         img="/img/custom-bangle.webp", alt="翡翠手鐲 / Jadeite bangles", w=1600, h=1200,
+         lead_time="7–12 個工作日", points=[], works=[], scenes=[], faqs=[]),
+    dict(slug="pendants", name="吊墜", desc="依寓意設計，楊老師團隊親手雕琢",
+         img="/img/custom-pendant-v2.webp", alt="翡翠吊墜 / Jadeite pendant", w=1332, h=999,
+         lead_time="7–12 個工作日", points=[], works=[], scenes=[], faqs=[]),
+    dict(slug="rings", name="戒面鑲嵌", desc="精選戒面，按需設計鑲嵌款式",
+         img="/img/custom-ring-v3.webp", alt="翡翠戒指 / Jadeite ring", w=1600, h=1200,
+         lead_time="7–10 個工作日", points=[], works=[], scenes=[], faqs=[]),
+    dict(slug="carvings", name="雕件擺件", desc="因料施藝，雕琢獨一無二的擺件",
+         img="/img/custom-carving-v2.webp", alt="翡翠擺件 / Jadeite carving", w=1600, h=1200,
+         lead_time="15–30 個工作日", points=[], works=[], scenes=[], faqs=[]),
+    dict(slug="pairs", name="對牌／禮贈", desc="成對雕刻，適合情侶與禮贈",
+         img="/img/custom-pair.webp", alt="翡翠對牌 / Jadeite pair plaques", w=1600, h=1200,
+         lead_time="7–15 個工作日", points=[], works=[], scenes=[], faqs=[]),
+    dict(slug="rough", name="翡翠收藏", desc="精選翡翠原石，開窗見種色，可藏可訂製",
+         img="/img/custom-rough.webp", alt="翡翠原石收藏 / Jadeite rough stone", w=1080, h=810,
+         lead_time=None, points=[], works=[], scenes=[], faqs=[]),
 ]
-def cat_card(title, desc, img=None, alt=None, w=None, h=None):
+def cat_card(c):
+    title, desc, img, alt, w, h = c["name"], c["desc"], c.get("img"), c.get("alt"), c.get("w"), c.get("h")
     if img:
         media = (
             f'<div class="seo-ph seo-ph-img"><img loading="lazy" src="{img}" width="{w}" height="{h}" alt="{esc(alt)}"></div>'
@@ -245,9 +268,13 @@ def cat_card(title, desc, img=None, alt=None, w=None, h=None):
     else:
         media = '<div class="seo-ph"><span>待補實拍圖</span></div>'
     desc_html = f'<span class="todo">{desc}</span>' if '【待補' in desc else desc
+    href = f'/custom/{c["slug"]}'
     return (
-        f'<article class="card">{media}'
-        f'<div class="body"><h3>{title}</h3><p>{desc_html}</p></div></article>'
+        f'<article class="card">'
+        f'<a class="seo-card-link" href="{href}">'
+        f'{media}'
+        f'<div class="body"><h3>{title}</h3><p>{desc_html}</p>'
+        f'<span class="seo-card-more">查看更多 →</span></div></a></article>'
     )
 
 STEPS = [
@@ -314,7 +341,7 @@ custom_body = f"""<main id="main">
 <h2>可以訂製什麼</h2>
 <p class="lead">翡翠訂製包括手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。</p>
 <div class="grid">
-{''.join(cat_card(*c) for c in CATS)}
+{''.join(cat_card(c) for c in CATS)}
 </div>
 </div></section>
 <section class="mint seo-custom-flow" id="process">
@@ -356,6 +383,163 @@ write("custom.html",
                 "/custom")
       + nav("/custom") + custom_body + FOOT)
 
+
+def ph_slot(kind="image"):
+    # kind=image -> gallery placeholder; kind=scene -> scene card placeholder (no invented captions).
+    label = "圖片待補充" if kind == "image" else "場景待補充"
+    cap = "" if kind == "image" else "<h3>場景待補充</h3><p>說明待補充</p>"
+    return f'<div class="seo-slot seo-slot-ph"><div class="seo-ph"><span>{label}</span></div>{cap}</div>'
+
+def work_slot(item):
+    src, alt = item["src"], esc(item.get("alt") or "")
+    cap = item.get("caption") or ""
+    wh = f' width="{item["w"]}" height="{item["h"]}"' if item.get("w") and item.get("h") else ""
+    cap_attr = f' data-caption="{esc(cap)}"' if cap else ""
+    cap_html = f'<p class="seo-slot-cap">{esc(cap)}</p>' if cap else ""
+    return (
+        f'<a class="seo-slot seo-slot-img" href="{esc(src)}" data-lightbox="works"{cap_attr}>'
+        f'<div class="seo-ph seo-ph-img"><img loading="lazy" src="{esc(src)}"{wh} alt="{alt}"></div>'
+        f'{cap_html}</a>'
+    )
+
+def scene_slot(item):
+    src, alt = item["src"], esc(item.get("alt") or item.get("title") or "")
+    title, cap = item.get("title") or "", item.get("caption") or ""
+    wh = f' width="{item["w"]}" height="{item["h"]}"' if item.get("w") and item.get("h") else ""
+    cap_attr = f' data-caption="{esc((title + " — " + cap).strip(" —"))}"' if (title or cap) else ""
+    return (
+        f'<a class="seo-slot seo-slot-scene" href="{esc(src)}" data-lightbox="scenes"{cap_attr}>'
+        f'<div class="seo-ph seo-ph-img"><img loading="lazy" src="{esc(src)}"{wh} alt="{alt}"></div>'
+        f'<h3>{esc(title)}</h3><p>{esc(cap)}</p></a>'
+    )
+
+def breadcrumb_jsonld(page):
+    data = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "翡翠訂製", "item": f"{BASE}/custom"},
+            {"@type": "ListItem", "position": 2, "name": page["name"], "item": f"{BASE}/custom/{page['slug']}"},
+        ],
+    }
+    payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    return f'<script type="application/ld+json">{payload}</script>'
+
+def category_body(page, cats):
+    works = list(page.get("works") or [])[:5]
+    scenes = list(page.get("scenes") or [])[:3]
+    faqs = list(page.get("faqs") or [])
+    points = list(page.get("points") or [])
+    if page.get("lead_time"):
+        points = [f'製作周期大致為 {page["lead_time"]}。'] + points
+
+    if works:
+        gallery = "".join(work_slot(it) for it in works)
+    else:
+        gallery = "".join(ph_slot("image") for _ in range(5))
+    gallery_sec = (
+        '<section class="seo-cat-gallery" id="works">\n'
+        '<div class="wrap">\n'
+        '<p class="eyebrow">作品圖庫</p>\n'
+        ' <h2>作品圖庫</h2>\n'
+        f'<div class="seo-slots seo-slots-5">{gallery}</div>\n'
+        '</div></section>\n'
+    )
+
+    if scenes:
+        scene_html = "".join(scene_slot(it) for it in scenes)
+    else:
+        scene_html = "".join(ph_slot("scene") for _ in range(3))
+    scene_sec = (
+        '<section class="mint seo-cat-scenes" id="scenes">\n'
+        '<div class="wrap">\n'
+        '<p class="eyebrow">應用場景</p>\n'
+        '<h2>應用場景</h2>\n'
+        f'<div class="seo-slots seo-slots-3">{scene_html}</div>\n'
+        '</div></section>\n'
+    )
+
+    if points:
+        items = "".join(f'<li>{esc(pt)}</li>' for pt in points)
+        points_sec = (
+            '<section class="seo-cat-points" id="notes">\n'
+            '<div class="wrap">\n'
+            '<p class="eyebrow">訂製要點</p>\n'
+            '<h2>訂製要點</h2>\n'
+            f'<ul class="seo-cat-facts">{items}</ul>\n'
+            '</div></section>\n'
+        )
+    else:
+        points_sec = ""
+
+    process_sec = (
+        '<section class="mint seo-cat-process" id="process">\n'
+        '<div class="wrap">\n'
+        '<p class="eyebrow">訂製流程</p>\n'
+        '<h2>訂製流程</h2>\n'
+        '<p class="seo-cat-strip">溝通需求 · 選料 · 確認設計 · 報價與定金 · 製作與交付</p>\n'
+        '<p class="seo-more-c"><a class="seo-more" href="/custom#process">了解完整訂製流程 ↗</a></p>\n'
+        '</div></section>\n'
+    )
+
+    if faqs:
+        faq_sec = (
+            '<section class="mint seo-custom-faq" id="faq">\n'
+            '<div class="wrap">\n'
+            '<p class="eyebrow">常見問題</p>\n'
+            ' <h2>常見問題</h2>\n'
+            f'{faq_jsonld(faqs)}\n'
+            '<div class="seo-faq">\n'
+            f'{"".join(faq_item(*f) for f in faqs)}\n'
+            '</div>\n'
+            '</div></section>\n'
+        )
+    else:
+        faq_sec = ""
+
+    others = [c for c in cats if c["slug"] != page["slug"]]
+    other_links = "".join(
+        f'<li><a href="/custom/{c["slug"]}">{c["name"]}</a></li>' for c in others
+    )
+    bottom_sec = (
+        '<section class="contact seo-custom-cta seo-cat-more" id="more">\n'
+        '<div class="wrap">\n'
+        '<p class="eyebrow">其他品類</p>\n'
+        '<h2>其他品類</h2>\n'
+        f'<ul class="seo-cat-others">{other_links}</ul>\n'
+        '<div class="cta cta-trio"><a class="btn fill" href="/contact">諮詢訂製</a></div>\n'
+        '</div></section>\n'
+    )
+
+    img, alt, w, h = page["img"], esc(page["alt"]), page["w"], page["h"]
+    return (
+        f'<main id="main" class="seo-cat">\n'
+        f'{breadcrumb_jsonld(page)}\n'
+        f'<header class="seo-cat-hero">\n'
+        f'<div class="wrap">\n'
+        f'<nav class="seo-bc" aria-label="breadcrumb"><a href="/custom">翡翠訂製</a>'
+        f'<span aria-hidden="true"> › </span><span>{page["name"]}</span></nav>\n'
+        f'<h1>{page["name"]}</h1>\n'
+        f'<p class="sub">{page["desc"]}</p>\n'
+        f'<div class="seo-ph seo-ph-img seo-cat-hero-img">'
+        f'<img src="{img}" width="{w}" height="{h}" fetchpriority="high" alt="{alt}"></div>\n'
+        f'<div class="btns"><a class="btn fill" href="/contact">諮詢訂製</a></div>\n'
+        f'</div></header>\n'
+        f'{gallery_sec}{scene_sec}{points_sec}{process_sec}{faq_sec}{bottom_sec}'
+        f'</main>\n'
+    )
+
+def write_category_pages(cats):
+    for page in cats:
+        title = f'{page["name"]}｜翡翠訂製｜南詔工匠 Nanzhao Arts'
+        desc = f'{page["desc"]}楊樹明老師團隊提供一對一翡翠訂製。'
+        path = f'/custom/{page["slug"]}'
+        write(f'custom/{page["slug"]}.html',
+              page_head(title, desc, path, robots="noindex,follow")
+              + nav("/custom") + category_body(page, cats) + FOOT)
+
+
+write_category_pages(CATS)
 
 # ---------- /a/a1..a4 : homepage experience, noindex + canonical /team ----------
 canon = '<link rel="canonical" href="https://nanzhaoarts.com/">'
