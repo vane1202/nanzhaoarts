@@ -304,7 +304,7 @@ custom_body = f"""<main id="main">
 <header class="hero seo-custom-hero">
 <picture><source srcset="/img/master-yang3.webp" type="image/webp"><img src="/img/master-yang3.jpg" width="1500" height="1000" fetchpriority="high" alt="玉雕大師楊樹明雕琢翡翠 / Master Yang Shuming carving jadeite"></picture>
 <div class="htxt">
-<h1>翡翠定制</h1>
+<h1>翡翠訂製</h1>
 <p class="sub">楊樹明老師團隊・一對一翡翠訂製</p>
 <div class="btns"><a class="btn fill" href="/contact">聯繫專屬顧問</a></div>
 </div></header>
@@ -312,7 +312,7 @@ custom_body = f"""<main id="main">
 <div class="wrap">
 <p class="eyebrow">可訂製品類</p>
 <h2>可以訂製什麼</h2>
-<p class="lead">翡翠定制包括手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。</p>
+<p class="lead">翡翠訂製包括手鐲、吊墜、戒面鑲嵌、雕件擺件與對牌，亦可選購翡翠原石收藏。</p>
 <div class="grid">
 {''.join(cat_card(*c) for c in CATS)}
 </div>
@@ -351,8 +351,8 @@ custom_body = f"""<main id="main">
 </main>
 """
 write("custom.html",
-      page_head("翡翠定制｜南詔工匠 楊樹明老師團隊 | Nanzhao Arts",
-                "楊樹明老師團隊提供一對一翡翠定制。了解可訂製品類、訂製流程與聯繫方式，由專屬顧問協助溝通需求。",
+      page_head("翡翠訂製｜南詔工匠 楊樹明老師團隊 | Nanzhao Arts",
+                "楊樹明老師團隊提供一對一翡翠訂製。了解可訂製品類、訂製流程與聯繫方式，由專屬顧問協助溝通需求。",
                 "/custom")
       + nav("/custom") + custom_body + FOOT)
 

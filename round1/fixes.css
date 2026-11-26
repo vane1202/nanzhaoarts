@@ -5,7 +5,7 @@
 :is(a,button,[tabindex]):focus-visible{outline:2px solid #b8955a;outline-offset:4px}
 .todo,.vid.ph,.btn.off{display:none!important}
 #cgrid>.cbox:only-child{grid-column:1/-1;max-width:560px;width:100%;justify-self:center}
-.r1-contact-fallback{font-size:.85rem}.fabw[data-r1-suppressed=true]{display:none!important}
+.r1-contact-fallback{font-size:.85rem}.fabw[data-r1-suppressed=true]{display:none!important}.fabw{transition:opacity .2s}.fabw:not(.open)[data-r1-covering=true]{opacity:0;pointer-events:none}
 .r1-modal-open{overflow:hidden!important}
 .lb.r1-work{padding:24px;background:#08100de6;text-align:left;flex-direction:row;color:#26382b}
 .r1-work-panel{width:min(1120px,100%);max-height:calc(100dvh - 48px);overflow:auto;overscroll-behavior:contain;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);background:#f7f4ed;border:1px solid #8a8d7c;position:relative}

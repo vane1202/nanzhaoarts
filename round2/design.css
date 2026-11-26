@@ -103,3 +103,18 @@ p{text-wrap:pretty}.btn{border-radius:1px;min-height:46px;transition:background 
   #teamGrid .tbtns{flex-direction:column;align-items:stretch;width:100%;max-width:320px;gap:8px}
   #teamGrid .tbtns .btn{width:100%}
 }
+
+
+/* p0-polish-20261126 */
+/* Team: both portraits share one 3:4 frame so the two cards' buttons line up; the 9:16 source keeps the face and torso. */
+#teamGrid .team-portrait.ratio-9x16{aspect-ratio:3/4;object-position:50% 18%}
+/* The "open original video" link sits below the docked reel on the mint background, never over the photo. */
+@media(min-width:761px){
+  #teamGrid .team-stage{margin-bottom:46px}
+  #teamGrid .team-video-column .ui-source{position:absolute;top:100%;right:0;margin:4px 0 0;white-space:nowrap}
+}
+/* Works: the square card files carry ~10% blurred bands top and bottom; a 5:4 frame with cover trims exactly those. */
+.gal .tile{aspect-ratio:5/4}
+.gal .tile img{object-fit:cover}
+.r2-selected-grid figure:not(:first-child) .r2-art{aspect-ratio:5/4}
+.r2-selected-grid img{object-fit:cover}

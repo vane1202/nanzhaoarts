@@ -93,4 +93,17 @@
  },true);
  // Hide the floating contact launcher wherever an existing action area needs the space.
  if('IntersectionObserver'in window){const visible=new Map();const observer=new IntersectionObserver(entries=>{for(const entry of entries)visible.set(entry.target,entry.isIntersecting);document.getElementById('fabw').dataset.r1Suppressed=String([...visible.values()].some(Boolean));});for(const selector of ['#top','#contact','.loc']){const node=document.querySelector(selector);if(node)observer.observe(node);}}
+ // p0-polish-20261126: also step aside while any in-page button passes under the launcher
+ // (the bottom band of the viewport), e.g. the full-width team buttons on phones.
+ const fabw=document.getElementById('fabw');
+ if('IntersectionObserver'in window&&fabw){
+  const under=new Set(),seen=new WeakSet();
+  const sync=()=>{for(const n of under)if(!n.isConnected)under.delete(n);fabw.dataset.r1Covering=String(under.size>0);};
+  const io=new IntersectionObserver(entries=>{for(const e of entries)e.isIntersecting?under.add(e.target):under.delete(e.target);sync();},{rootMargin:'-82% 0px 0px 0px'});
+  let queued=false;
+  const scan=()=>{queued=false;for(const n of document.querySelectorAll('main .btn,main .ui-consult a,main .ui-source,main .seo-more')){if(seen.has(n))continue;seen.add(n);io.observe(n);}sync();};
+  scan();
+  const root=document.getElementById('main');
+  if(root)new MutationObserver(()=>{if(!queued){queued=true;requestAnimationFrame(scan);}}).observe(root,{childList:true,subtree:true});
+ }
 })();
