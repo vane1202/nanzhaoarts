@@ -1,0 +1,35 @@
+/* Design system: one heading voice, Chinese line breaking and three button tiers.
+   Last layer of css/site.css, so it settles the earlier round1 / round2 / seo / site-ui layers. */
+
+/* ---------- Headings ---------- */
+h1,h2,h3,.seo-h1,.seo-h3{font-family:var(--serif);font-weight:var(--fw-heading);font-synthesis-weight:none}
+h1,h2{letter-spacing:var(--ls-heading);line-height:var(--lh-heading)}
+html[lang="en"] :is(h1,h2){letter-spacing:.01em}
+.seo-h1{font-size:var(--fs-h2)}
+.mname{font-weight:var(--fw-heading)}
+
+/* ---------- Chinese line breaking ----------
+   Wrap only at punctuation, spaces and the <wbr> phrase points written into the headings,
+   so words such as 玉雕 or 鄉音 are never split; a phrase that still cannot fit breaks rather than overflows. */
+:is(h1,h2,h3,.gal .t){word-break:keep-all;overflow-wrap:anywhere;line-break:strict;text-wrap:balance}
+
+/* ---------- Buttons: three tiers ----------
+   Primary   .btn.fill / .btn.cta / .btn.wa : gold fill, ink text (one main action per view)
+   Secondary .btn (and .btn.jade, .btn.line): 1px outline; jade on light surfaces, gold on dark ones
+   Text link .r2-link / .seo-more / .r2-open : gold text with a fine underline */
+.btn{font-weight:500;letter-spacing:.08em;border-radius:var(--radius);text-shadow:none;background:transparent;border-color:var(--jade);color:var(--jade)}
+.btn:hover{background:var(--jade);border-color:var(--jade);color:var(--paper)}
+:is(.hero,.dark,.contact,.stats,footer) .btn{background:transparent;border-color:var(--gold);color:var(--gold)}
+:is(.hero,.dark,.contact,.stats,footer) .btn:hover{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.btn:is(.fill,.cta,.wa),:is(.hero,.dark,.contact,.stats,footer) .btn:is(.fill,.cta,.wa){background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.btn:is(.fill,.cta,.wa):hover,:is(.hero,.dark,.contact,.stats,footer) .btn:is(.fill,.cta,.wa):hover{background:var(--gold-hover);border-color:var(--gold-hover);color:var(--ink)}
+.mgo{border-radius:var(--radius)}
+
+.r2-link,.seo-more,.r2-selected-grid .r2-open{color:var(--gold-text);text-decoration:underline;text-decoration-thickness:1px;text-decoration-color:#b8955a99;text-underline-offset:6px}
+.r2-link:hover,.seo-more:hover,.r2-selected-grid figure:hover .r2-open{color:var(--ink);text-decoration-color:currentColor}
+:is(.hero,.dark,.contact,.stats,footer) :is(.r2-link,.seo-more){color:var(--paper)}
+:is(.hero,.dark,.contact,.stats,footer) :is(.r2-link,.seo-more):hover{color:var(--gold)}
+
+/* Map links on /stores: one row of equal buttons instead of wrapping onto two lines. */
+.mapbtns{display:flex;flex-wrap:nowrap;gap:6px}
+.mapbtns .btn{flex:1 1 0;min-width:0;margin:0;padding:7px 4px;font-size:.8rem;letter-spacing:.02em;line-height:1.5;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

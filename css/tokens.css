@@ -1,0 +1,17 @@
+/* Design tokens: typefaces, type scale and colours shared by every page.
+   First layer of css/site.css (after the generated @font-face rules). */
+:root{
+  /* Headings use the self-hosted Noto Serif (css/fonts.css) on every platform; Windows has no CJK serif of its own. */
+  --serif:"NZ Serif SC","Songti SC","Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+  --fw-heading:500;
+  --ls-heading:.04em;
+  --lh-heading:1.4;
+  --fs-h1:clamp(2rem,3.6vw,2.9rem);
+  --fs-h2:clamp(1.9rem,3.3vw,2.7rem);
+  --fs-h3:1.3rem;
+  /* Gold that passes WCAG AA as text on paper and mint (5.4:1); --gold itself is for fills, rules and dark surfaces. */
+  --gold-text:#7a5c2c;
+  --gold-hover:#cdb07a;
+  --radius:1px;
+}
+html[lang="zh-TW"]{--serif:"NZ Serif TC","Songti TC","Noto Serif TC","Noto Serif CJK TC","Source Han Serif TC",Georgia,"Times New Roman",serif}

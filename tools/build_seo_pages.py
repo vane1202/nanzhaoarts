@@ -47,7 +47,7 @@ def page_head(title, desc, path, robots="index,follow"):
 <meta property="og:type" content="website"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:image" content="{BASE}/img/og-cover.jpg"><meta property="og:url" content="{url}">
 {ICONS}
 {STYLES}
-<link rel="stylesheet" href="/round1/fixes.css"><link rel="stylesheet" href="/round2/design.css?v=hero-a-wide-20261103"><link rel="stylesheet" href="/seo.css?v=contact-20261120">
+<link rel="stylesheet" href="/css/site.css">
 </head>
 """
 
